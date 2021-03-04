@@ -10,7 +10,6 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace AIPS_GIBDD
@@ -18,19 +17,11 @@ namespace AIPS_GIBDD
     /// <summary>
     /// Логика взаимодействия для MainWindow.xaml
     /// </summary>
-    public partial class Authorization : Window
+    public partial class MainWindow : Window
     {
-        public Authorization()
+        public MainWindow()
         {
             InitializeComponent();
-        }
-
-        private void BtnLogin_Click(object sender, RoutedEventArgs e)
-        {
-            MainWindow mainWindow = new MainWindow();
-            this.Hide();
-            mainWindow.Show();
-            this.Close();
         }
     }
 }
