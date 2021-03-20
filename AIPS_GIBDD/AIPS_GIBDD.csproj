@@ -110,5 +110,15 @@
   <ItemGroup>
     <Resource Include="Resources\gibdd_icon2.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\icon_download.png" />
+    <Resource Include="Resources\icon_menu.png" />
+    <Resource Include="Resources\icon_message.png" />
+    <Resource Include="Resources\icon_refund.png" />
+    <Resource Include="Resources\icon_search.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\icon_delete.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

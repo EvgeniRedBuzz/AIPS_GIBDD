@@ -8,22 +8,131 @@
         Title="АИС ГИБДД" Height="700" Width="1000"
         WindowStartupLocation="CenterScreen"
         Icon="Resources\gibdd_icon.png">
-    <Grid>
-        <ToolBarTray Orientation="Vertical" 
-                     HorizontalAlignment="Left"
-                     Background="#FF3333C5"
-                     >
-            <ToolBar >
-                
-            </ToolBar>
-            <ToolBar Background="Blue">
-                <Button Width="100" Height="100"/>
-                <Button Width="100" Height="100"/>
-                <Button Width="100" Height="100"/>
-                <Button Width="100" Height="100"/>
-                <Button Width="100" Height="100"/>
+    <Window.Resources>
 
-            </ToolBar>
-        </ToolBarTray>
+        <ImageBrush x:Key="tb_mouse_over"
+                    ImageSource="/Resources/icon_delete.png"/>
+
+        <Style x:Key="tb_style"
+               TargetType="{x:Type ToggleButton}">
+
+            <Setter Property="Template">
+
+                <Setter.Value>
+
+                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+
+                        <Border x:Name="border"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                Background="{TemplateBinding Background}"
+                                SnapsToDevicePixels="True">
+                            
+                            
+                        </Border>
+
+
+                        <ControlTemplate.Triggers>
+
+                            <!--<Trigger Property="IsMouseOver"
+                                     Value="True">
+
+                                <Setter Property="Background"
+                                        TargetName="border"
+                                        Value="{StaticResource tb_mouse_over}"/>
+
+                                <Setter Property="BorderBrush"
+                                        TargetName="border"
+                                        Value="{StaticResource tb_mouse_over}"/>
+                            </Trigger>-->
+
+                            <Trigger Property="IsChecked"
+                                     Value="True">
+
+
+                                <Setter Property="Background"
+                                        TargetName="border"
+                                        Value="{StaticResource tb_mouse_over}"/>
+
+                                <Setter Property="BorderBrush"
+                                        TargetName="border"
+                                        Value="{StaticResource tb_mouse_over}"/>
+
+                            </Trigger>
+                            
+                        </ControlTemplate.Triggers>
+                        
+                    </ControlTemplate>
+                    
+                </Setter.Value>
+                
+            </Setter>
+            
+        </Style>
+
+
+    </Window.Resources>
+    
+    
+    <Grid>
+
+        <Grid Background="Black">
+            <Grid x:Name="navpan"
+                  HorizontalAlignment="Left"
+                  Width="65"
+                  Background="#FF3C73C6">
+                <StackPanel x:Name="stkpan">
+                    <Grid Height="90">
+                        <TextBlock Grid.Row="1"
+                                   Grid.Column="0"
+                                   Margin="73,-20,0,0" 
+                                   Text="М Е Н Ю"
+                                   Foreground="White"
+                                   FontSize="22"
+                                   Background="Transparent"
+                                   HorizontalAlignment="Left"
+                                   VerticalAlignment="Center"/>
+                        <ToggleButton x:Name="Tgbtn"
+                                      Grid.Column="0"
+                                      VerticalAlignment="Center"
+                                      HorizontalAlignment="Left"
+                                      Margin="18,-20,0,0"
+                                      Height="30"
+                                      Width="30"
+                                      BorderThickness="0"
+                                      Style="{StaticResource tb_style}">
+                            <ToggleButton.Background>
+                                <ImageBrush ImageSource="/Resources/icon_menu.png"/>
+                            </ToggleButton.Background>
+                            <ToggleButton.Triggers>
+                                <EventTrigger RoutedEvent="ToggleButton.Unchecked">
+                                    <BeginStoryboard>
+                                        <Storyboard x:Name="HideStackPanel">
+                                            <DoubleAnimation Storyboard.TargetName="navpan"
+                                                             Storyboard.TargetProperty="Width"
+                                                             BeginTime="0:0:0"
+                                                             From="230" To=" 65"
+                                                             Duration="0:0:0.2">
+                                            </DoubleAnimation>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                                <EventTrigger RoutedEvent="ToggleButton.Checked">
+                                    <BeginStoryboard>
+                                        <Storyboard x:Name="ShowStackPanel">
+                                            <DoubleAnimation Storyboard.TargetName="navpan"
+                                                             Storyboard.TargetProperty="Width"
+                                                             BeginTime="0:0:0"
+                                                             From="65" To=" 230"
+                                                             Duration="0:0:0.2">
+                                            </DoubleAnimation>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </ToggleButton.Triggers>
+                        </ToggleButton>
+                    </Grid>
+                </StackPanel>
+            </Grid>
+        </Grid>
     </Grid>
 </Window>
