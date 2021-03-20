@@ -5,11 +5,25 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AIPS_GIBDD"
         mc:Ignorable="d"
-        Title="АИС ГИБДД" Height="800" Width="1000"
+        Title="АИС ГИБДД" Height="700" Width="1000"
         WindowStartupLocation="CenterScreen"
-        ResizeMode="NoResize"
         Icon="Resources\gibdd_icon.png">
     <Grid>
-        
+        <ToolBarTray Orientation="Vertical" 
+                     HorizontalAlignment="Left"
+                     Background="#FF3333C5"
+                     >
+            <ToolBar >
+                
+            </ToolBar>
+            <ToolBar Background="Blue">
+                <Button Width="100" Height="100"/>
+                <Button Width="100" Height="100"/>
+                <Button Width="100" Height="100"/>
+                <Button Width="100" Height="100"/>
+                <Button Width="100" Height="100"/>
+
+            </ToolBar>
+        </ToolBarTray>
     </Grid>
 </Window>

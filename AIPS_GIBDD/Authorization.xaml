@@ -8,14 +8,14 @@
         Title="Авторизация в системе ГИБДД" Height="600" Width="800"
         WindowStartupLocation="CenterScreen"
         ResizeMode="NoResize"
-        Icon="Resources\gibdd_icon.png">
+        Icon="Resources\gibdd_icon2.png">
     <Grid Background="#FF3C73C6">
         <Grid.RowDefinitions>
             <RowDefinition Height="170"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" Orientation="Horizontal">
-            <Image Source="Resources\gibdd_icon.png"
+            <Image Source="Resources\gibdd_icon2.png"
                    Margin="210,20,0,0"/>
             <Label Content="Авторизация"
                    VerticalAlignment="Center"
