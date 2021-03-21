@@ -7,87 +7,36 @@
         mc:Ignorable="d"
         Title="АИС ГИБДД" Height="700" Width="1000"
         WindowStartupLocation="CenterScreen"
-        Icon="Resources\gibdd_icon.png">
+        Icon="/Resources/gibdd_icon.png">
     <Window.Resources>
-
-        <ImageBrush x:Key="tb_mouse_over"
-                    ImageSource="/Resources/icon_delete.png"/>
-
-        <Style x:Key="tb_style"
-               TargetType="{x:Type ToggleButton}">
-
-            <Setter Property="Template">
-
-                <Setter.Value>
-
-                    <ControlTemplate TargetType="{x:Type ToggleButton}">
-
-                        <Border x:Name="border"
-                                BorderThickness="{TemplateBinding BorderThickness}"
-                                Background="{TemplateBinding Background}"
-                                SnapsToDevicePixels="True">
-                            
-                            
-                        </Border>
-
-
-                        <ControlTemplate.Triggers>
-
-                            <!--<Trigger Property="IsMouseOver"
-                                     Value="True">
-
-                                <Setter Property="Background"
-                                        TargetName="border"
-                                        Value="{StaticResource tb_mouse_over}"/>
-
-                                <Setter Property="BorderBrush"
-                                        TargetName="border"
-                                        Value="{StaticResource tb_mouse_over}"/>
-                            </Trigger>-->
-
-                            <Trigger Property="IsChecked"
-                                     Value="True">
-
-
-                                <Setter Property="Background"
-                                        TargetName="border"
-                                        Value="{StaticResource tb_mouse_over}"/>
-
-                                <Setter Property="BorderBrush"
-                                        TargetName="border"
-                                        Value="{StaticResource tb_mouse_over}"/>
-
-                            </Trigger>
-                            
-                        </ControlTemplate.Triggers>
-                        
-                    </ControlTemplate>
-                    
-                </Setter.Value>
-                
-            </Setter>
-            
-        </Style>
-
-
+        
     </Window.Resources>
-    
-    
     <Grid>
-
         <Grid Background="Black">
             <Grid x:Name="navpan"
                   HorizontalAlignment="Left"
                   Width="65"
                   Background="#FF3C73C6">
-                <StackPanel x:Name="stkpan">
-                    <Grid Height="90">
-                        <TextBlock Grid.Row="1"
-                                   Grid.Column="0"
-                                   Margin="73,-20,0,0" 
-                                   Text="М Е Н Ю"
+                <StackPanel x:Name="stkpan" Grid.Column="0">
+                    <Grid Height="180">
+                        <Image Source="/Resources/gibdd_icon2.png"
+                           Height="55" Width="55"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           Margin="5"/>
+                        <TextBlock Grid.Column="0"
+                                   Margin="77,13,0,0" 
+                                   Text="АИС ГИБДД"
                                    Foreground="White"
-                                   FontSize="22"
+                                   FontSize="26"
+                                   Background="Transparent"
+                                   HorizontalAlignment="Left"
+                                   VerticalAlignment="Top"/>
+                        <TextBlock Grid.Column="0"
+                                   Margin="109,85,0,60" 
+                                   Text="МЕНЮ"
+                                   Foreground="White"
+                                   FontSize="26"
                                    Background="Transparent"
                                    HorizontalAlignment="Left"
                                    VerticalAlignment="Center"/>
@@ -95,7 +44,7 @@
                                       Grid.Column="0"
                                       VerticalAlignment="Center"
                                       HorizontalAlignment="Left"
-                                      Margin="18,-20,0,0"
+                                      Margin="18,30,0,0"
                                       Height="30"
                                       Width="30"
                                       BorderThickness="0"
@@ -131,7 +80,47 @@
                             </ToggleButton.Triggers>
                         </ToggleButton>
                     </Grid>
+                    <ListView x:Name="LVNavigatePanel"
+                              Background="Transparent"
+                              BorderBrush="Transparent"
+                              ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                        <ListViewItem HorizontalAlignment="Left"
+                                      >
+                            <StackPanel Orientation="Horizontal"
+                                        Width="220">
+                                <Button x:Name="BtnSearch" 
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Left"
+                                Margin="0,5,0,0"
+                                Height="50"
+                                Width="50"
+                                BorderThickness="0">
+                                    <Button.Background>
+                                        <ImageBrush ImageSource="/Resources/icon_search.png"/>
+                                    </Button.Background>
+                                </Button>
+                                <TextBlock Text="ПОИСК"
+                                           Style="{StaticResource FontStyleNavPan}"
+                                           Foreground="White"
+                                           Margin="50,0,0,0"/>
+                            </StackPanel>
+                            <ListViewItem.ToolTip>
+                                <ToolTip x:Name="BSearch"
+                                         Content="ПОИСК"
+                                         Style="{StaticResource Tt1}"/>
+                            </ListViewItem.ToolTip>
+
+                        </ListViewItem>
+                    </ListView>
                 </StackPanel>
+            </Grid>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="65"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Frame x:Name="MainFrame"
+                       Grid.Column="1"/>
             </Grid>
         </Grid>
     </Grid>
