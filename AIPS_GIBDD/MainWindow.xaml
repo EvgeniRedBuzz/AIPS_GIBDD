@@ -7,7 +7,8 @@
         mc:Ignorable="d"
         Title="АИС ГИБДД" Height="700" Width="1000"
         WindowStartupLocation="CenterScreen"
-        Icon="/Resources/gibdd_icon.png">
+        Icon="/Resources/gibdd_icon.png"
+        WindowStyle="None">
     <Window.Resources>
         
     </Window.Resources>
@@ -104,6 +105,7 @@
                                            Foreground="White"
                                            Margin="50,0,0,0"/>
                             </StackPanel>
+
                             <ListViewItem.ToolTip>
                                 <ToolTip x:Name="BSearch"
                                          Content="ПОИСК"
@@ -122,6 +124,15 @@
                 <Frame x:Name="MainFrame"
                        Grid.Column="1"/>
             </Grid>
+            <Button x:Name="BtnShutdown"
+                Width="40"
+                    Height="40" Margin="12,600,0,0"
+                    HorizontalAlignment="Left"
+                    BorderThickness="0" Click="BtnShutdown_Click">
+                <Button.Background>
+                    <ImageBrush ImageSource="/Resources/icon_shutdown.png"/>
+                </Button.Background>
+            </Button>
         </Grid>
     </Grid>
 </Window>

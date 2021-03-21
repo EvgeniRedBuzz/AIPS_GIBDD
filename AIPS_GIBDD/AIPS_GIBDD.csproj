@@ -127,5 +127,8 @@
   <ItemGroup>
     <Resource Include="Resources\icon_delete.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\icon_shutdown.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

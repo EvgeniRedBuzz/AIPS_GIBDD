@@ -23,5 +23,13 @@ namespace AIPS_GIBDD
         {
             InitializeComponent();
         }
+
+        private void BtnShutdown_Click(object sender, RoutedEventArgs e)
+        {
+            if (MessageBox.Show("Вы хотите выйти?", "Уведомление", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+            {
+                Close();
+            }
+        }
     }
 }
