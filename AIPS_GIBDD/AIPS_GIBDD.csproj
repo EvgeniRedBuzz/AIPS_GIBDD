@@ -55,7 +55,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="Authorization.xaml">
+    <Page Include="Windows\Authorization.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -63,11 +63,11 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Authorization.xaml.cs">
+    <Compile Include="Windows\Authorization.xaml.cs">
       <DependentUpon>Authorization.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="MainWindow.xaml">
+    <Page Include="Windows\FrameWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -77,8 +77,8 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
+    <Compile Include="Windows\FrameWindow.xaml.cs">
+      <DependentUpon>FrameWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\TestPage.xaml.cs">
       <DependentUpon>TestPage.xaml</DependentUpon>
@@ -109,26 +109,42 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\gibdd_icon.png" />
+    <Resource Include="Resources\Icon.png" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="NewFolder1\" />
+    <Folder Include="ClassHelper\" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\gibdd_icon2.png" />
+    <Resource Include="Resources\Logo.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\icon_download.png" />
-    <Resource Include="Resources\icon_menu.png" />
-    <Resource Include="Resources\icon_message.png" />
-    <Resource Include="Resources\icon_refund.png" />
-    <Resource Include="Resources\icon_search.png" />
+    <Resource Include="Resources\Download.png" />
+    <Resource Include="Resources\Menu.png" />
+    <Resource Include="Resources\Message.png" />
+    <Resource Include="Resources\Refund.png" />
+    <Resource Include="Resources\Search.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\icon_delete.png" />
+    <Resource Include="Resources\Delete.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\icon_shutdown.png" />
+    <Resource Include="Resources\Shutdown.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Employee.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\TransportVehicle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\User.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\ClosedDoor.png" />
+    <Resource Include="Resources\OpenDoor.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Search2.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

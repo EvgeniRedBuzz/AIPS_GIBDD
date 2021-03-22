@@ -10,27 +10,31 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace AIPS_GIBDD
+namespace AIPS_GIBDD.Windows
 {
     /// <summary>
     /// Логика взаимодействия для MainWindow.xaml
     /// </summary>
-    public partial class Authorization : Window
+    public partial class FrameWindow : Window
     {
-        public Authorization()
+        public FrameWindow()
         {
             InitializeComponent();
         }
 
-        private void BtnLogin_Click(object sender, RoutedEventArgs e)
+        private void BtnShutdown_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow mainWindow = new MainWindow();
-            this.Hide();
-            mainWindow.Show();
-            this.Close();
+            if (MessageBox.Show("Вы хотите выйти?", "Уведомление", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+            {
+                Close();
+            }
+        }
+
+        private void BtnSearch_MouseEnter(object sender, MouseEventArgs e)
+        {
+
         }
     }
 }
