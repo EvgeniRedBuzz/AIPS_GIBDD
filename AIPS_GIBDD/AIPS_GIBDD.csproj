@@ -35,8 +35,17 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -55,6 +64,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="help.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\StartPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Windows\Authorization.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -62,6 +79,90 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ClassHelper\AppData.cs" />
+    <Compile Include="ClassHelper\PageNavigation.cs" />
+    <Compile Include="ClassHelper\UserTransportVehicle.cs" />
+    <Compile Include="EF\Article.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\BrandTV.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\CategoryTV.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\CertificateRegistration.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\Color.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\Department.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\DriverLicence.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\DrivingLicenceCategory.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\Employee.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\Gender.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\Model1.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Model1.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\Model1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\Model1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Model1.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="EF\ModelTV.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\Penalty.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\PenaltyArticle.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\Position.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\sp_helpdiagramdefinition_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\sp_helpdiagrams_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\sysdiagrams.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\TransportVehicle.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\User.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EF\UserTransportVehicle.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="help.xaml.cs">
+      <DependentUpon>help.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\StartPage.xaml.cs">
+      <DependentUpon>StartPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\Authorization.xaml.cs">
       <DependentUpon>Authorization.xaml</DependentUpon>
@@ -71,7 +172,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Pages\TestPage.xaml">
+    <Page Include="Pages\SearchPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -80,8 +181,8 @@
     <Compile Include="Windows\FrameWindow.xaml.cs">
       <DependentUpon>FrameWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\TestPage.xaml.cs">
-      <DependentUpon>TestPage.xaml</DependentUpon>
+    <Compile Include="Pages\SearchPage.xaml.cs">
+      <DependentUpon>SearchPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -100,6 +201,14 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EntityDeploy Include="EF\Model1.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Model1.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="EF\Model1.edmx.diagram">
+      <DependentUpon>Model1.edmx</DependentUpon>
+    </None>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -112,7 +221,7 @@
     <Resource Include="Resources\Icon.png" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="ClassHelper\" />
+    <Resource Include="Resources\Return.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Logo.png" />
@@ -145,6 +254,124 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Search2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Material\PhotoUser\1.jpg" />
+    <Resource Include="Material\PhotoUser\10.jpg" />
+    <Resource Include="Material\PhotoUser\11.jpg" />
+    <Resource Include="Material\PhotoUser\12.jpg" />
+    <Resource Include="Material\PhotoUser\13.jpg" />
+    <Resource Include="Material\PhotoUser\14.jpg" />
+    <Resource Include="Material\PhotoUser\15.jpg" />
+    <Resource Include="Material\PhotoUser\16.jpg" />
+    <Resource Include="Material\PhotoUser\17.jpg" />
+    <Resource Include="Material\PhotoUser\18.jpg" />
+    <Resource Include="Material\PhotoUser\19.jpg" />
+    <Resource Include="Material\PhotoUser\2.jpg" />
+    <Resource Include="Material\PhotoUser\20.jpg" />
+    <Resource Include="Material\PhotoUser\21.jpg" />
+    <Resource Include="Material\PhotoUser\22.jpg" />
+    <Resource Include="Material\PhotoUser\23.jpg" />
+    <Resource Include="Material\PhotoUser\24.jpg" />
+    <Resource Include="Material\PhotoUser\25.jpg" />
+    <Resource Include="Material\PhotoUser\26.jpg" />
+    <Resource Include="Material\PhotoUser\27.jpg" />
+    <Resource Include="Material\PhotoUser\28.jpg" />
+    <Resource Include="Material\PhotoUser\29.jpg" />
+    <Resource Include="Material\PhotoUser\3.jpg" />
+    <Resource Include="Material\PhotoUser\30.jpg" />
+    <Resource Include="Material\PhotoUser\31.jpg" />
+    <Resource Include="Material\PhotoUser\32.jpg" />
+    <Resource Include="Material\PhotoUser\33.jpg" />
+    <Resource Include="Material\PhotoUser\34.jpg" />
+    <Resource Include="Material\PhotoUser\35.jpg" />
+    <Resource Include="Material\PhotoUser\36.jpg" />
+    <Resource Include="Material\PhotoUser\37.jpg" />
+    <Resource Include="Material\PhotoUser\38.jpg" />
+    <Resource Include="Material\PhotoUser\39.jpg" />
+    <Resource Include="Material\PhotoUser\4.jpg" />
+    <Resource Include="Material\PhotoUser\40.jpg" />
+    <Resource Include="Material\PhotoUser\41.jpg" />
+    <Resource Include="Material\PhotoUser\42.jpg" />
+    <Resource Include="Material\PhotoUser\43.jpg" />
+    <Resource Include="Material\PhotoUser\44.jpg" />
+    <Resource Include="Material\PhotoUser\47.jpg" />
+    <Resource Include="Material\PhotoUser\48.jpg" />
+    <Resource Include="Material\PhotoUser\5.jpg" />
+    <Resource Include="Material\PhotoUser\6.jpg" />
+    <Resource Include="Material\PhotoUser\7.jpg" />
+    <Resource Include="Material\PhotoUser\8.jpg" />
+    <Resource Include="Material\PhotoUser\9.jpg" />
+    <Resource Include="Material\PhotoUser\m1.jpg" />
+    <Resource Include="Material\PhotoUser\m10.jpg" />
+    <Resource Include="Material\PhotoUser\m11.jpg" />
+    <Resource Include="Material\PhotoUser\m12.jpg" />
+    <Resource Include="Material\PhotoUser\m13.jpg" />
+    <Resource Include="Material\PhotoUser\m14.jpg" />
+    <Resource Include="Material\PhotoUser\m15.jpg" />
+    <Resource Include="Material\PhotoUser\m16.jpg" />
+    <Resource Include="Material\PhotoUser\m17.jpg" />
+    <Resource Include="Material\PhotoUser\m18.jpg" />
+    <Resource Include="Material\PhotoUser\m19.jpg" />
+    <Resource Include="Material\PhotoUser\m2.jpg" />
+    <Resource Include="Material\PhotoUser\m20.jpg" />
+    <Resource Include="Material\PhotoUser\m21.jpg" />
+    <Resource Include="Material\PhotoUser\m22.jpg" />
+    <Resource Include="Material\PhotoUser\m23.jpg" />
+    <Resource Include="Material\PhotoUser\m24.jpg" />
+    <Resource Include="Material\PhotoUser\m25.jpg" />
+    <Resource Include="Material\PhotoUser\m26.jpg" />
+    <Resource Include="Material\PhotoUser\m27.jpg" />
+    <Resource Include="Material\PhotoUser\m28.jpg" />
+    <Resource Include="Material\PhotoUser\m29.jpg" />
+    <Resource Include="Material\PhotoUser\m3.jpg" />
+    <Resource Include="Material\PhotoUser\m30.jpg" />
+    <Resource Include="Material\PhotoUser\m31.jpg" />
+    <Resource Include="Material\PhotoUser\m32.jpg" />
+    <Resource Include="Material\PhotoUser\m33.jpg" />
+    <Resource Include="Material\PhotoUser\m34.jpg" />
+    <Resource Include="Material\PhotoUser\m35.jpg" />
+    <Resource Include="Material\PhotoUser\m36.jpg" />
+    <Resource Include="Material\PhotoUser\m37.jpg" />
+    <Resource Include="Material\PhotoUser\m38.jpg" />
+    <Resource Include="Material\PhotoUser\m39.jpg" />
+    <Resource Include="Material\PhotoUser\m4.jpg" />
+    <Resource Include="Material\PhotoUser\m40.jpg" />
+    <Resource Include="Material\PhotoUser\m41.jpg" />
+    <Resource Include="Material\PhotoUser\m42.jpg" />
+    <Resource Include="Material\PhotoUser\m43.jpg" />
+    <Resource Include="Material\PhotoUser\m44.jpg" />
+    <Resource Include="Material\PhotoUser\m45.jpg" />
+    <Resource Include="Material\PhotoUser\m46.jpg" />
+    <Resource Include="Material\PhotoUser\m47.jpg" />
+    <Resource Include="Material\PhotoUser\m48.jpg" />
+    <Resource Include="Material\PhotoUser\m49.jpg" />
+    <Resource Include="Material\PhotoUser\m5.jpg" />
+    <Resource Include="Material\PhotoUser\m50.jpg" />
+    <Resource Include="Material\PhotoUser\m6.jpg" />
+    <Resource Include="Material\PhotoUser\m7.jpg" />
+    <Resource Include="Material\PhotoUser\m8.jpg" />
+    <Resource Include="Material\PhotoUser\m9.jpg" />
+    <Resource Include="Material\PhotoUser\m96.jpg" />
+    <Resource Include="Material\PhotoUser\m97.jpg" />
+    <Resource Include="Material\PhotoUser\m98.jpg" />
+    <Resource Include="Material\PhotoUser\m99.jpg" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="EF\Model1.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Model1.Context.cs</LastGenOutput>
+      <DependentUpon>Model1.edmx</DependentUpon>
+    </Content>
+    <Content Include="EF\Model1.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Model1.edmx</DependentUpon>
+      <LastGenOutput>Model1.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

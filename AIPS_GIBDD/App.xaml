@@ -29,6 +29,16 @@
             <Setter Property="Foreground" Value="Black"/>
             <Setter Property="Background" Value="White"/>
         </Style>
+        <Style TargetType="ComboBox" x:Key="Cmb1">
+            <Setter Property="FontSize" Value="26"/>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="Foreground" Value="Black"/>
+        </Style>
+        <Style TargetType="TextBlock" x:Key="Tb3">
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Foreground" Value="Black"/>
+        </Style>
+        
         <ImageBrush x:Key="MouseOverBtnMenu"
                     ImageSource="/Resources/Delete.png"/>
         <Style x:Key="BtnMenuStyle"
@@ -56,6 +66,7 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        
         <Style x:Key="FontStyleNavPan" TargetType="TextBlock">
             <Setter Property="VerticalAlignment"
                     Value="Center"/>
@@ -66,11 +77,11 @@
             <Setter Property="FontSize"
                     Value="26"/>
         </Style>
+        
         <ImageBrush x:Key="MouseEnterBtnSignOut"
                     ImageSource="/Resources/OpenDoor.png"/>
         <Style x:Key="BtnSignOutStyle"
                TargetType="Button">
-            
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
@@ -94,19 +105,15 @@
                 </Setter.Value>
             </Setter>
         </Style>
-
-        
         
         <Style x:Key="MouseEnterBtn"
                TargetType="Button">
-            <!--<Style.Triggers>
-                <Trigger>
-                    <EventSetter Event="MouseEnter">
-                    </EventSetter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
                     <Setter Property="Opacity"
-                            Value="0.1"/>
+                            Value="1"/>
                 </Trigger>
-            </Style.Triggers>-->
+            </Style.Triggers>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
@@ -118,22 +125,47 @@
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver"
                                      Value="True">
-                                <!-- <Setter Property="Opacity"
-                                        TargetName="Border"
-                                        Value="0.99"/> -->
-                                 <Setter Property="BorderThickness"
+                                <!--<Setter Property="BorderThickness"
                                         TargetName="Border"
                                         Value="2"/>
                                 <Setter Property="BorderBrush"
                                         TargetName="Border"
-                                        Value="#FF143D7A"/> 
+                                        Value="#FF143D7A"/>--> 
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Opacity"
+                    Value="0.5"/>
+        </Style>
+
+        <Style x:Key="MouseEnterBtn2"
+               TargetType="Button">
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Opacity"
+                            Value="1"/>
+                </Trigger>
+            </Style.Triggers>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="Border"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                Background="{TemplateBinding Background}"
+                                SnapsToDevicePixels="True">
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver"
+                                     Value="True">
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
-        
+
         <!--Создание стиля для вспывающего окна в панель навигации-->
         <Style TargetType="ToolTip" x:Key="Tt1">
             <Setter Property="Placement"
@@ -163,5 +195,6 @@
             <Setter Property="HorizontalContentAlignment"
                     Value="Center"/>
         </Style>
+        
     </Application.Resources>
 </Application>

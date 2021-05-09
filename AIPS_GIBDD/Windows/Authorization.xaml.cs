@@ -12,6 +12,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using AIPS_GIBDD.EF;
+using static AIPS_GIBDD.ClassHelper.PageNavigation;
+using static AIPS_GIBDD.ClassHelper.AppData;
 
 namespace AIPS_GIBDD.Windows
 {
@@ -20,6 +23,9 @@ namespace AIPS_GIBDD.Windows
     /// </summary>
     public partial class Authorization : Window
     {
+
+        
+
         public Authorization()
         {
             InitializeComponent();
@@ -27,10 +33,22 @@ namespace AIPS_GIBDD.Windows
 
         private void BtnLogin_Click(object sender, RoutedEventArgs e)
         {
-            FrameWindow frameWindow = new FrameWindow();
-            this.Hide();
-            frameWindow.Show();
-            this.Close();
+            
+            var log = context.Employee.Where(i => i.Login.Equals(TxtLog.Text) &&
+                              i.Password.Equals(TxtPass.Password)).ToList();
+            IdEmployee = context.Employee.Where(i => i.Login.Equals(TxtLog.Text) &&
+                         i.Password.Equals(TxtPass.Password)).Select(n=>n.IdEmployee).FirstOrDefault();
+            if (log.Count > 0)
+            {
+                FrameWindow frameWindow = new FrameWindow();
+                this.Hide();
+                frameWindow.Show();
+                this.Close();
+            }
+            else
+            {
+                MessageBox.Show("Неправильный логин или пароль", "Уведомление", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
         }
 
         private void BtnShutdown_Click(object sender, RoutedEventArgs e)

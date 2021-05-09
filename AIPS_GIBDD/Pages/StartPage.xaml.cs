@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace AIPS_GIBDD.Pages
 {
     /// <summary>
-    /// Логика взаимодействия для TestPage.xaml
+    /// Логика взаимодействия для StartPage.xaml
     /// </summary>
-    public partial class TestPage : Page
+    public partial class StartPage : Page
     {
-        public TestPage()
+        public StartPage()
         {
             InitializeComponent();
         }

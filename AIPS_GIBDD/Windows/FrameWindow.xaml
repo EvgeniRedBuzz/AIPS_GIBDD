@@ -5,28 +5,34 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AIPS_GIBDD"
         mc:Ignorable="d"
-        Title="АИС ГИБДД" Height="700" Width="1000"
+        Title="АИС ГИБДД"
+        Height="700" Width="1000"
         MinHeight="650" MinWidth="800"
         WindowStartupLocation="CenterScreen"
-        Icon="/Resources/Icon.png">
+        Icon="/Resources/Icon.png" 
+        Loaded="Window_Loaded">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="270"/>
-            
-            <!--ТЕСТ Поменять на 70-->
-            
+            <ColumnDefinition Width="70"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
+
+        <!--Создание обьекта Frame для постраничной навигации-->
+        <Frame x:Name="MainFrame"
+               Grid.Column="1"
+               NavigationUIVisibility="Hidden">
+            <Frame.Background>
+                <ImageBrush ImageSource="/Resources/Message.png"/>
+            </Frame.Background>
+        </Frame>
         
         <!-- Создание панели навигации -->
-
         <Grid x:Name="NavigatePanel"
               Grid.Column="0"
+              Grid.ColumnSpan="2"
               HorizontalAlignment="Left"
-              Width="270" 
+              Width="70" 
               Background="#FF3C73C6">
-
-            <!-- Поменять ширину на 70-->
 
             <Grid.RowDefinitions>
                 <RowDefinition Height="65"/>
@@ -58,7 +64,6 @@
                        HorizontalAlignment="Left"/>
 
             <!-- Кнопка открывающая меню -->
-
             <ToggleButton x:Name="BtnMenu"
                           Grid.Row="1"
                           VerticalAlignment="Bottom"
@@ -110,6 +115,28 @@
                        HorizontalAlignment="Left"
                        VerticalAlignment="Bottom"/>
 
+            <Button x:Name="BtnReturn" 
+                    Grid.Row="2"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Left"
+                    Margin="15,0,0,0"
+                    Height="40"
+                    Width="40"
+                    BorderThickness="0"
+                    Style="{StaticResource MouseEnterBtn2}"
+                    MouseEnter="BtnSearch_MouseEnter" 
+                    Click="BtnReturn_Click">
+                <Button.Background>
+                    <ImageBrush ImageSource="/Resources/Return.png"/>
+                </Button.Background>
+                <Button.ToolTip>
+                    <ToolTip Style="{StaticResource Tt1}">
+
+                    </ToolTip>
+
+                </Button.ToolTip>
+            </Button>
+
             <Button x:Name="BtnSearch" 
                     Grid.Row="2"
                     VerticalAlignment="Center"
@@ -118,14 +145,15 @@
                     Height="40"
                     Width="40"
                     BorderThickness="0"
-                    Style="{StaticResource MouseEnterBtn}" MouseEnter="BtnSearch_MouseEnter">
+                    Style="{StaticResource MouseEnterBtn}"
+                    MouseEnter="BtnSearch_MouseEnter"
+                    Click="BtnSearch_Click">
                 <Button.Background>
-                    <ImageBrush ImageSource="/Resources/Search2.png"
-                                Stretch="UniformToFill"/>
+                    <ImageBrush ImageSource="/Resources/Search2.png"/>
                 </Button.Background>
                 <Button.ToolTip>
                     <Border>
-                        
+
                     </Border>
                 </Button.ToolTip>
 
@@ -169,7 +197,7 @@
                 <Button.Background>
                     <ImageBrush ImageSource="/Resources/TransportVehicle.png"/>
                 </Button.Background>
-               
+
             </Button>
 
             <Button x:Name="BtnAccount"
@@ -179,7 +207,8 @@
                     VerticalAlignment="Bottom"
                     HorizontalAlignment="Left"
                     BorderThickness="0"
-                    Margin="10,0,0,70">
+                    Margin="10,0,0,70"
+                    Style="{StaticResource MouseEnterBtn2}">
                 <Button.Background>
                     <ImageBrush ImageSource="/Resources/User.png"/>
                 </Button.Background>
@@ -217,9 +246,5 @@
 
 
         </Grid>
-        <Image x:Name="MainFrame"
-               Grid.Column="1"
-               Source="/Resources/Message.png"
-               Stretch="Fill"/>
     </Grid>
 </Window>

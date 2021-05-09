@@ -48,6 +48,7 @@
                    Margin="10"
                    Style="{StaticResource Lb2}"/>
             <TextBox Text=""
+                     x:Name="TxtLog"
                      Grid.Row="0"
                      Grid.Column="1"
                      Width="310"
@@ -56,6 +57,7 @@
                      Margin="10,15"
                      Style="{StaticResource Tbx2}"/>
             <PasswordBox Password=""
+                         x:Name="TxtPass"
                          Grid.Row="1"
                          Grid.Column="1"
                          Width="310"

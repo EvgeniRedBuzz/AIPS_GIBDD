@@ -11,30 +11,51 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using static AIPS_GIBDD.ClassHelper.PageNavigation;
 
 namespace AIPS_GIBDD.Windows
 {
-    /// <summary>
-    /// Логика взаимодействия для MainWindow.xaml
-    /// </summary>
     public partial class FrameWindow : Window
     {
         public FrameWindow()
         {
             InitializeComponent();
+            
         }
 
         private void BtnShutdown_Click(object sender, RoutedEventArgs e)
         {
             if (MessageBox.Show("Вы хотите выйти?", "Уведомление", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
             {
-                Close();
+                Authorization authorization = new Authorization();
+                this.Hide();
+                authorization.Show();
+                this.Close();
             }
         }
 
         private void BtnSearch_MouseEnter(object sender, MouseEventArgs e)
         {
 
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            frame = MainFrame;
+        }
+
+        private void BtnSearch_Click(object sender, RoutedEventArgs e)
+        {
+            frame.Navigate(new Pages.SearchPage());
+            BtnMenu.IsChecked = false;
+        }
+
+        private void BtnReturn_Click(object sender, RoutedEventArgs e)
+        {
+            if (MainFrame.CanGoBack)
+            {
+                MainFrame.GoBack();
+            }
         }
     }
 }
