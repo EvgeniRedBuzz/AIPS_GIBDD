@@ -15,7 +15,7 @@ namespace AIPS_GIBDD.EF
         {
             get
             {
-                return $"/{PhotoPath}";
+                return $"{PhotoPath}";
             }
         }
 

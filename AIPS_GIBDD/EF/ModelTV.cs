@@ -23,6 +23,7 @@ namespace AIPS_GIBDD.EF
         public int IdModelTV { get; set; }
         public int IdBrandTV { get; set; }
         public string NameModel { get; set; }
+        public string PhotoTVPath { get; set; }
     
         public virtual BrandTV BrandTV { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

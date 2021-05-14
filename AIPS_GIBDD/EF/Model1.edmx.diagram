@@ -22,7 +22,6 @@
         <EntityTypeShape EntityType="TestGibddModel.sysdiagrams" Width="1.5" PointX="7.75" PointY="0.75" />
         <EntityTypeShape EntityType="TestGibddModel.TransportVehicle" Width="1.5" PointX="3" PointY="13" />
         <EntityTypeShape EntityType="TestGibddModel.User" Width="1.5" PointX="3" PointY="6" />
-        <EntityTypeShape EntityType="TestGibddModel.UserTransportVehicle" Width="1.5" PointX="9.75" PointY="0.75" />
         <AssociationConnector Association="TestGibddModel.FK_PenaltyArticle_Article" />
         <AssociationConnector Association="TestGibddModel.FK_ModelTV_BrandTV" />
         <AssociationConnector Association="TestGibddModel.FK_DrivingLicenceCategory_CategoryTV" />
@@ -40,6 +39,8 @@
         <AssociationConnector Association="TestGibddModel.FK_User_Gender" />
         <AssociationConnector Association="TestGibddModel.FK_TransportVehicle_ModelTV" />
         <AssociationConnector Association="TestGibddModel.FK_PenaltyArticle_Penalty" />
+        <EntityTypeShape EntityType="TestGibddModel.UserPenalty" Width="1.5" PointX="5.375" PointY="9.75" />
+        <EntityTypeShape EntityType="TestGibddModel.UserTransportVehicle" Width="1.5" PointX="7.375" PointY="9.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

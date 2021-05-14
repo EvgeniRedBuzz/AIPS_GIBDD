@@ -44,6 +44,7 @@ namespace AIPS_GIBDD.EF
         public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<TransportVehicle> TransportVehicle { get; set; }
         public virtual DbSet<User> User { get; set; }
+        public virtual DbSet<UserPenalty> UserPenalty { get; set; }
         public virtual DbSet<UserTransportVehicle> UserTransportVehicle { get; set; }
     
         public virtual int sp_alterdiagram(string diagramname, Nullable<int> owner_id, Nullable<int> version, byte[] definition)

@@ -6,8 +6,8 @@
         xmlns:local="clr-namespace:AIPS_GIBDD"
         mc:Ignorable="d"
         Title="АИС ГИБДД"
-        Height="700" Width="1000"
-        MinHeight="650" MinWidth="800"
+        Height="900" Width="1100"
+        ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen"
         Icon="/Resources/Icon.png" 
         Loaded="Window_Loaded">
@@ -21,11 +21,8 @@
         <Frame x:Name="MainFrame"
                Grid.Column="1"
                NavigationUIVisibility="Hidden">
-            <Frame.Background>
-                <ImageBrush ImageSource="/Resources/Message.png"/>
-            </Frame.Background>
         </Frame>
-        
+
         <!-- Создание панели навигации -->
         <Grid x:Name="NavigatePanel"
               Grid.Column="0"
@@ -76,6 +73,11 @@
                 <ToggleButton.Background>
                     <ImageBrush ImageSource="/Resources/Menu.png"/>
                 </ToggleButton.Background>
+                <ToggleButton.ToolTip>
+                    <ToolTip Style="{StaticResource Tt1}">
+                        <TextBlock Text="Меню"/>
+                    </ToolTip>
+                </ToggleButton.ToolTip>
                 <ToggleButton.Triggers>
                     <EventTrigger RoutedEvent="ToggleButton.Checked">
                         <BeginStoryboard>
@@ -123,17 +125,15 @@
                     Height="40"
                     Width="40"
                     BorderThickness="0"
-                    Style="{StaticResource MouseEnterBtn2}"
-                    MouseEnter="BtnSearch_MouseEnter" 
+                    Style="{StaticResource MouseEnterBtn3}"
                     Click="BtnReturn_Click">
                 <Button.Background>
                     <ImageBrush ImageSource="/Resources/Return.png"/>
                 </Button.Background>
                 <Button.ToolTip>
                     <ToolTip Style="{StaticResource Tt1}">
-
+                        <TextBlock Text="Назад"/>
                     </ToolTip>
-
                 </Button.ToolTip>
             </Button>
 
@@ -197,24 +197,21 @@
                 <Button.Background>
                     <ImageBrush ImageSource="/Resources/TransportVehicle.png"/>
                 </Button.Background>
-
             </Button>
-
             <Button x:Name="BtnAccount"
-                    Grid.Row="7"
-                    Width="50"
-                    Height="50"
-                    VerticalAlignment="Bottom"
-                    HorizontalAlignment="Left"
-                    BorderThickness="0"
-                    Margin="10,0,0,70"
-                    Style="{StaticResource MouseEnterBtn2}">
-                <Button.Background>
-                    <ImageBrush ImageSource="/Resources/User.png"/>
-                </Button.Background>
+                BorderThickness="0"
+                HorizontalAlignment="Left"
+                Height="50"
+                Margin="10,0,0,70"
+                Grid.Row="7"
+                VerticalAlignment="Bottom"
+                Width="50" Click="BtnAccount_Click">
+                <Image x:Name="AccUserPhoto" Stretch="Fill"/>
             </Button>
 
-            <TextBlock Grid.Row="7"
+
+            <TextBlock x:Name="txtFioEmployee"
+                       Grid.Row="7"
                        Margin="70,0,0,55"
                        TextWrapping="Wrap"
                        Text="ФИО"
@@ -238,13 +235,12 @@
                 <Button.Background>
                     <ImageBrush ImageSource="/Resources/ClosedDoor.png"/>
                 </Button.Background>
+                <Button.ToolTip>
+                    <ToolTip Style="{StaticResource Tt1}">
+                        <TextBlock Text="Выход"/>
+                    </ToolTip>
+                </Button.ToolTip>
             </Button>
-
-
-
-
-
-
         </Grid>
     </Grid>
 </Window>

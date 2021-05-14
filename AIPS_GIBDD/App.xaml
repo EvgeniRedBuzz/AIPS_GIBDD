@@ -16,6 +16,9 @@
             <Setter Property="FontSize" Value="26"/>
             <Setter Property="Foreground" Value="Black"/>
         </Style>
+        <Style TargetType="Border" x:Key="brd2">
+            <Setter Property="CornerRadius" Value="90"/>
+        </Style>
         <Style TargetType="TextBlock" x:Key="Tb1">
             <Setter Property="FontSize" Value="26"/>
             <Setter Property="Foreground" Value="Black"/>
@@ -125,12 +128,6 @@
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver"
                                      Value="True">
-                                <!--<Setter Property="BorderThickness"
-                                        TargetName="Border"
-                                        Value="2"/>
-                                <Setter Property="BorderBrush"
-                                        TargetName="Border"
-                                        Value="#FF143D7A"/>--> 
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -166,6 +163,27 @@
             </Setter>
         </Style>
 
+        <Style x:Key="MouseEnterBtn3"
+               TargetType="Button">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="Border"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                Background="{TemplateBinding Background}"
+                                SnapsToDevicePixels="True">
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver"
+                                     Value="True">
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+
         <!--Создание стиля для вспывающего окна в панель навигации-->
         <Style TargetType="ToolTip" x:Key="Tt1">
             <Setter Property="Placement"
@@ -183,7 +201,7 @@
             <Setter Property="Foreground"
                     Value="White"/>
             <Setter Property="FontSize"
-                    Value="16"/>
+                    Value="20"/>
             <Setter Property="PlacementRectangle"
                     Value="60,0,0,0"/>
             <Setter Property="HorizontalOffset"

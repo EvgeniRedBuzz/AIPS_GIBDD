@@ -11,6 +11,8 @@ namespace AIPS_GIBDD.ClassHelper
     {
         public static Frame frame { get; set; }
 
-        public static int IdEmployee;
+        public static string EmployeePhotoPath;
+
+        public static string EmployeeeFio;
     }
 }

@@ -68,6 +68,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="help2.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\AccountPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\StartPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -155,11 +163,20 @@
     <Compile Include="EF\User.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="EF\UserPenalty.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="EF\UserTransportVehicle.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="help.xaml.cs">
       <DependentUpon>help.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="help2.xaml.cs">
+      <DependentUpon>help2.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\AccountPage.xaml.cs">
+      <DependentUpon>AccountPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\StartPage.xaml.cs">
       <DependentUpon>StartPage.xaml</DependentUpon>
@@ -369,6 +386,18 @@
       <DependentUpon>Model1.edmx</DependentUpon>
       <LastGenOutput>Model1.cs</LastGenOutput>
     </Content>
+    <Resource Include="Material\PhotoTV\AudiA1.jpg" />
+    <Resource Include="Material\PhotoTV\AudiA4.jpg" />
+    <Resource Include="Material\PhotoTV\AudiA5.png" />
+    <Resource Include="Material\PhotoTV\AudiA8.jpg" />
+    <Resource Include="Material\PhotoTV\AudiQ5.png" />
+    <Resource Include="Material\PhotoTV\LexusIS250.jpg" />
+    <Resource Include="Material\PhotoTV\LexusRX270.jpg" />
+    <Resource Include="Material\PhotoTV\LexusRX350.jpg" />
+    <Resource Include="Material\PhotoTV\LexusRX450h.jpg" />
+    <Resource Include="Material\PhotoTV\LexusRX570.jpg" />
+    <Resource Include="Resources\FindTransportVehicle.png" />
+    <Resource Include="Resources\FindUser.png" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

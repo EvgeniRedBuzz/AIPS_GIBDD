@@ -1,0 +1,40 @@
+﻿<Page x:Class="AIPS_GIBDD.Pages.AccountPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:AIPS_GIBDD.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="970" d:DesignWidth="1030"
+      Title="Account">
+
+    <Grid Background="#FF4992FF">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="400"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="400"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Image x:Name="UserPhoto"
+                   Margin="50"
+                   Grid.Column="0"/>
+            <TabControl Grid.Column="1"
+                        Margin="50"
+                        Background="#FF3C73C6">
+                <TabItem Background="#FF3C73C6">
+                    <TabItem.Header>
+                        <TextBlock Text="Достижения"/>
+                    </TabItem.Header>
+                </TabItem>
+                <TabItem Background="#FF3C73C6">
+                    <TabItem.Header>
+                        <TextBlock Text="Достижения"/>
+                    </TabItem.Header>
+                </TabItem>
+            </TabControl>
+        </Grid>
+    </Grid>
+</Page>

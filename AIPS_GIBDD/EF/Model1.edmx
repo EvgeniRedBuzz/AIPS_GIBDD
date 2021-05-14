@@ -99,6 +99,7 @@
           <Property Name="IdModelTV" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="IdBrandTV" Type="int" Nullable="false" />
           <Property Name="NameModel" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="PhotoTVPath" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Penalty">
           <Key>
@@ -158,6 +159,16 @@
           <Property Name="PhotoPath" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <!--Ошибки, обнаруженные при создании:
+предупреждение 6002: В таблице или представлении "TestGibdd.dbo.UserPenalty" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
+        <EntityType Name="UserPenalty">
+          <Key>
+            <PropertyRef Name="FIO" />
+          </Key>
+          <Property Name="FIO" Type="nvarchar" MaxLength="152" Nullable="false" />
+          <Property Name="CountPenalty" Type="int" />
+          <Property Name="SumPenalty" Type="decimal" Precision="38" Scale="2" />
+        </EntityType>
+        <!--Ошибки, обнаруженные при создании:
 предупреждение 6002: В таблице или представлении "TestGibdd.dbo.UserTransportVehicle" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
         <EntityType Name="UserTransportVehicle">
           <Key>
@@ -166,6 +177,7 @@
             <PropertyRef Name="Brand" />
             <PropertyRef Name="Model" />
             <PropertyRef Name="Color" />
+            <PropertyRef Name="IdBrand" />
           </Key>
           <Property Name="PhotoPath" Type="nvarchar" MaxLength="50" />
           <Property Name="FIO" Type="nvarchar" MaxLength="152" Nullable="false" />
@@ -176,6 +188,8 @@
           <Property Name="Brand" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Model" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Color" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="IdBrand" Type="int" Nullable="false" />
+          <Property Name="PhotoTVPath" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <Association Name="FK_CertificateRegistration_Department">
           <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
@@ -430,6 +444,13 @@
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TransportVehicle" EntityType="Self.TransportVehicle" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserPenalty" EntityType="Self.UserPenalty" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [UserPenalty].[FIO] AS [FIO], 
+    [UserPenalty].[CountPenalty] AS [CountPenalty], 
+    [UserPenalty].[SumPenalty] AS [SumPenalty]
+    FROM [dbo].[UserPenalty] AS [UserPenalty]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="UserTransportVehicle" EntityType="Self.UserTransportVehicle" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [UserTransportVehicle].[PhotoPath] AS [PhotoPath], 
@@ -440,7 +461,9 @@
     [UserTransportVehicle].[VIN] AS [VIN], 
     [UserTransportVehicle].[Brand] AS [Brand], 
     [UserTransportVehicle].[Model] AS [Model], 
-    [UserTransportVehicle].[Color] AS [Color]
+    [UserTransportVehicle].[Color] AS [Color], 
+    [UserTransportVehicle].[IdBrand] AS [IdBrand], 
+    [UserTransportVehicle].[PhotoTVPath] AS [PhotoTVPath]
     FROM [dbo].[UserTransportVehicle] AS [UserTransportVehicle]</DefiningQuery>
           </EntitySet>
           <AssociationSet Name="FK_CertificateRegistration_Department" Association="Self.FK_CertificateRegistration_Department">
@@ -564,7 +587,6 @@
           <EntitySet Name="sysdiagrams" EntityType="TestGibddModel.sysdiagrams" />
           <EntitySet Name="TransportVehicle" EntityType="TestGibddModel.TransportVehicle" />
           <EntitySet Name="User" EntityType="TestGibddModel.User" />
-          <EntitySet Name="UserTransportVehicle" EntityType="TestGibddModel.UserTransportVehicle" />
           <AssociationSet Name="FK_PenaltyArticle_Article" Association="TestGibddModel.FK_PenaltyArticle_Article">
             <End Role="Article" EntitySet="Article" />
             <End Role="PenaltyArticle" EntitySet="PenaltyArticle" />
@@ -633,6 +655,8 @@
             <End Role="Penalty" EntitySet="Penalty" />
             <End Role="PenaltyArticle" EntitySet="PenaltyArticle" />
           </AssociationSet>
+          <EntitySet Name="UserPenalty" EntityType="TestGibddModel.UserPenalty" />
+          <EntitySet Name="UserTransportVehicle" EntityType="TestGibddModel.UserTransportVehicle" />
           </EntityContainer>
         <ComplexType Name="sp_helpdiagramdefinition_Result">
           <Property Type="Int32" Name="version" Nullable="true" />
@@ -760,6 +784,7 @@
           <Property Name="NameModel" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="BrandTV" Relationship="TestGibddModel.FK_ModelTV_BrandTV" FromRole="ModelTV" ToRole="BrandTV" />
           <NavigationProperty Name="TransportVehicle" Relationship="TestGibddModel.FK_TransportVehicle_ModelTV" FromRole="ModelTV" ToRole="TransportVehicle" />
+          <Property Name="PhotoTVPath" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Penalty">
           <Key>
@@ -830,24 +855,6 @@
           <NavigationProperty Name="DriverLicence" Relationship="TestGibddModel.FK_DriverLicence_User" FromRole="User" ToRole="DriverLicence" />
           <NavigationProperty Name="Employee" Relationship="TestGibddModel.FK_Employee_User" FromRole="User" ToRole="Employee" />
           <NavigationProperty Name="Gender" Relationship="TestGibddModel.FK_User_Gender" FromRole="User" ToRole="Gender" />
-        </EntityType>
-        <EntityType Name="UserTransportVehicle">
-          <Key>
-            <PropertyRef Name="FIO" />
-            <PropertyRef Name="Number" />
-            <PropertyRef Name="Brand" />
-            <PropertyRef Name="Model" />
-            <PropertyRef Name="Color" />
-          </Key>
-          <Property Name="PhotoPath" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="FIO" Type="String" Nullable="false" MaxLength="152" FixedLength="false" Unicode="true" />
-          <Property Name="Number" Type="Int64" Nullable="false" />
-          <Property Name="DateReceipt" Type="DateTime" Precision="0" />
-          <Property Name="NumberTransportVehicle" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="VIN" Type="String" MaxLength="17" FixedLength="false" Unicode="true" />
-          <Property Name="Brand" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Model" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Color" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK_PenaltyArticle_Article">
           <End Type="TestGibddModel.Article" Role="Article" Multiplicity="1" />
@@ -1053,6 +1060,35 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="UserPenalty">
+          <Key>
+            <PropertyRef Name="FIO" />
+          </Key>
+          <Property Name="FIO" Type="String" Nullable="false" MaxLength="152" FixedLength="false" Unicode="true" />
+          <Property Name="CountPenalty" Type="Int32" />
+          <Property Name="SumPenalty" Type="Decimal" Precision="38" Scale="2" />
+        </EntityType>
+        <EntityType Name="UserTransportVehicle">
+          <Key>
+            <PropertyRef Name="FIO" />
+            <PropertyRef Name="Number" />
+            <PropertyRef Name="Brand" />
+            <PropertyRef Name="Model" />
+            <PropertyRef Name="Color" />
+            <PropertyRef Name="IdBrand" />
+          </Key>
+          <Property Name="PhotoPath" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FIO" Type="String" Nullable="false" MaxLength="152" FixedLength="false" Unicode="true" />
+          <Property Name="Number" Type="Int64" Nullable="false" />
+          <Property Name="DateReceipt" Type="DateTime" Precision="0" />
+          <Property Name="NumberTransportVehicle" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="VIN" Type="String" MaxLength="17" FixedLength="false" Unicode="true" />
+          <Property Name="Brand" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Model" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Color" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IdBrand" Type="Int32" Nullable="false" />
+          <Property Name="PhotoTVPath" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1183,6 +1219,7 @@
           <EntitySetMapping Name="ModelTV">
             <EntityTypeMapping TypeName="TestGibddModel.ModelTV">
               <MappingFragment StoreEntitySet="ModelTV">
+                <ScalarProperty Name="PhotoTVPath" ColumnName="PhotoTVPath" />
                 <ScalarProperty Name="NameModel" ColumnName="NameModel" />
                 <ScalarProperty Name="IdBrandTV" ColumnName="IdBrandTV" />
                 <ScalarProperty Name="IdModelTV" ColumnName="IdModelTV" />
@@ -1252,9 +1289,20 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="UserPenalty">
+            <EntityTypeMapping TypeName="TestGibddModel.UserPenalty">
+              <MappingFragment StoreEntitySet="UserPenalty">
+                <ScalarProperty Name="SumPenalty" ColumnName="SumPenalty" />
+                <ScalarProperty Name="CountPenalty" ColumnName="CountPenalty" />
+                <ScalarProperty Name="FIO" ColumnName="FIO" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="UserTransportVehicle">
             <EntityTypeMapping TypeName="TestGibddModel.UserTransportVehicle">
               <MappingFragment StoreEntitySet="UserTransportVehicle">
+                <ScalarProperty Name="PhotoTVPath" ColumnName="PhotoTVPath" />
+                <ScalarProperty Name="IdBrand" ColumnName="IdBrand" />
                 <ScalarProperty Name="Color" ColumnName="Color" />
                 <ScalarProperty Name="Model" ColumnName="Model" />
                 <ScalarProperty Name="Brand" ColumnName="Brand" />

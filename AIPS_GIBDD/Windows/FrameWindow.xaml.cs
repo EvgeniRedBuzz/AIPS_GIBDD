@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using static AIPS_GIBDD.Pages.StartPage;
 using static AIPS_GIBDD.ClassHelper.PageNavigation;
 
 namespace AIPS_GIBDD.Windows
@@ -20,6 +21,7 @@ namespace AIPS_GIBDD.Windows
         public FrameWindow()
         {
             InitializeComponent();
+            
             
         }
 
@@ -42,6 +44,10 @@ namespace AIPS_GIBDD.Windows
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             frame = MainFrame;
+            AccUserPhoto.Source = new BitmapImage(new Uri(EmployeePhotoPath, UriKind.Relative));
+            txtFioEmployee.Text = EmployeeeFio;
+            frame.Navigate(new Pages.StartPage());
+           
         }
 
         private void BtnSearch_Click(object sender, RoutedEventArgs e)
@@ -56,6 +62,13 @@ namespace AIPS_GIBDD.Windows
             {
                 MainFrame.GoBack();
             }
+        }
+
+        
+
+        private void BtnAccount_Click(object sender, RoutedEventArgs e)
+        {
+            frame.Navigate(new Pages.AccountPage());
         }
     }
 }
