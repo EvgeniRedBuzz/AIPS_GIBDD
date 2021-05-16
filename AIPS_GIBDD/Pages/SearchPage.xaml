@@ -27,7 +27,7 @@
                      Width="280" Height="40"
                      HorizontalAlignment="Left"
                      VerticalAlignment="Top"
-                     Margin="100,13,0,0"/>
+                     Margin="100,13,0,0" TextChanged="TxtVIN_TextChanged"/>
             <Label Content="ФИО"
                    Style="{StaticResource Lb2}"
                    HorizontalAlignment="Left"
@@ -38,7 +38,7 @@
                      Width="280" Height="40"
                      HorizontalAlignment="Left"
                      VerticalAlignment="Top"
-                     Margin="100,73,0,0"/>
+                     Margin="100,73,0,0" TextChanged="TxtFIO_TextChanged"/>
             <Label Content="Номер"
                    Style="{StaticResource Lb2}"
                    HorizontalAlignment="Left"
@@ -49,7 +49,7 @@
                      Width="280" Height="40"
                      HorizontalAlignment="Left"
                      VerticalAlignment="Top"
-                     Margin="100,133,0,0"/>
+                     Margin="100,133,0,0" TextChanged="TxtNumber_TextChanged"/>
             <Label Content="Марка"
                    Style="{StaticResource Lb2}"
                    Grid.Column="1"
@@ -127,7 +127,7 @@
                             <TextBlock x:Name="TbVIN"
                            Grid.Column="1"
                            Text="{Binding VIN}"
-                           Width="165" Height="25"
+                           Width="175" Height="25"
                            HorizontalAlignment="Left"
                            VerticalAlignment="Top"
                            Margin="45,40,0,0"

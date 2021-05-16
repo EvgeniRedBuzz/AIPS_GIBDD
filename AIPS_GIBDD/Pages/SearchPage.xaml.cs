@@ -68,22 +68,21 @@ namespace AIPS_GIBDD.Pages
         private void Filter()
         {
             var ListUserTV = context.UserTransportVehicle.ToList();
-
             ListUserTV = ListUserTV.Where(i => i.FIO.Contains(TxtFIO.Text) &&
                                           i.VIN.Contains(TxtVIN.Text) &&
                                           i.NumberTransportVehicle.Contains(TxtNumber.Text)).ToList();
-
-
             if (CmbBrand.SelectedIndex != 0)
             {
                 ListUserTV = ListUserTV.Where(i => i.IdBrand == CmbBrand.SelectedIndex).ToList();
             }
-
             if (CmbModel.SelectedIndex != 0)
             {
                 ListUserTV = ListUserTV.Where(i => i.Model == CmbModel.Text).ToList();
             }
-
+            if (CmbColor.SelectedIndex != 0)
+            {
+                ListUserTV = ListUserTV.Where(i => i.Color == CmbColor.Text).ToList();
+            }
             LvUserTV.ItemsSource = ListUserTV;
         }
 
@@ -101,6 +100,21 @@ namespace AIPS_GIBDD.Pages
         private void CmbColor_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             
+            Filter();
+        }
+
+        private void TxtNumber_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            Filter();
+        }
+
+        private void TxtVIN_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            Filter();
+        }
+
+        private void TxtFIO_TextChanged(object sender, TextChangedEventArgs e)
+        {
             Filter();
         }
     }

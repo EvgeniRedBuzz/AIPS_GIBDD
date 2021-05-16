@@ -15,13 +15,14 @@
         <Label Content="Главная страница"
                Style="{StaticResource Lb1}"
                HorizontalAlignment="Center"
-               VerticalAlignment="Center"/>
+               VerticalAlignment="Bottom"/>
         <Label x:Name="LbTimer"
-               Content="Время"
+               Content=""
+               ContentStringFormat="HH:mm:ss"
                Style="{StaticResource Lb1}"
                HorizontalAlignment="Right"
                VerticalAlignment="Top"
-               Margin="10"/>
+               Margin="10" Visibility="Hidden"/>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
@@ -36,11 +37,11 @@
                     BorderThickness="0"
                     Style="{StaticResource MouseEnterBtn}">
                 <Button.Background>
-                    <ImageBrush ImageSource="/Resources/FindUser.png"/>
+                    <ImageBrush ImageSource="/Resources/Search2.png"/>
                 </Button.Background>
                 <Button.ToolTip>
                     <ToolTip Style="{StaticResource Tt1}">
-                        <TextBlock Text="Поиск водителя"/>
+                        <TextBlock Text="Поиск"/>
                     </ToolTip>
                 </Button.ToolTip>
             </Button>
@@ -54,11 +55,11 @@
                     BorderThickness="0"
                     Style="{StaticResource MouseEnterBtn}">
                 <Button.Background>
-                    <ImageBrush ImageSource="/Resources/FindTransportVehicle.png"/>
+                    <ImageBrush ImageSource="/Resources/Licence.png"/>
                 </Button.Background>
                 <Button.ToolTip>
-                    <ToolTip Style="{StaticResource Tt1}">
-                        <TextBlock Text="Поиск транспортного средства"/>
+                    <ToolTip Style="{StaticResource Tt2}">
+                        <TextBlock Text="Водительские удостоверения"/>
                     </ToolTip>
                 </Button.ToolTip>
             </Button>
@@ -70,7 +71,7 @@
                     Height="250"
                     Width="250"
                     BorderThickness="0"
-                    Style="{StaticResource MouseEnterBtn}">
+                    Style="{StaticResource MouseEnterBtn}" Click="BtnRefundUser_Click">
                 <Button.Background>
                     <ImageBrush ImageSource="/Resources/Refund.png"/>
                 </Button.Background>

@@ -7,7 +7,8 @@
         mc:Ignorable="d"
         Title="Авторизация в системе ГИБДД" Height="600" Width="800"
         WindowStartupLocation="CenterScreen"
-        ResizeMode="NoResize">
+        ResizeMode="NoResize"
+        Icon="/Resources/Icon.png" >
     <!-- #FF3C73C6 -->
     <Grid Background="#FF3C73C6">
         <Grid.RowDefinitions>

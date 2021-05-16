@@ -1,0 +1,144 @@
+﻿<Page x:Class="AIPS_GIBDD.Pages.PenaltyPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:AIPS_GIBDD.Pages"
+      xmlns:Help="clr-namespace:AIPS_GIBDD.ClassHelper"
+      mc:Ignorable="d" 
+      d:DesignHeight="970" d:DesignWidth="1030"
+      Title="PenaltyPage">
+    <Page.Resources>
+        <Help:Converter x:Key="Converter"/>
+    </Page.Resources>
+    <Grid Background="#FF4992FF">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="400"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Label Content="ФИО"
+                   Style="{StaticResource Lb2}"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Top"
+                   Margin="10,10"/>
+            <TextBox x:Name="TxtFIO"
+                     Style="{StaticResource Tbx2}"
+                     Width="280" Height="40"
+                     HorizontalAlignment="Left"
+                     VerticalAlignment="Top"
+                     Margin="100,13,0,0" TextChanged="TxtFIO_TextChanged"/>
+            <Label Content="Сортировка"
+                   Style="{StaticResource Lb2}"
+                   Grid.Column="1"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Top"
+                   Margin="0,10,0,0"/>
+            <ComboBox x:Name="CmbFilter"
+                      Style="{StaticResource Cmb1}"
+                      Grid.Column="1"
+                     Width="350" Height="40"
+                     HorizontalAlignment="Left"
+                     VerticalAlignment="Top"
+                     Margin="160,13,0,0" SelectionChanged="CmbFilter_SelectionChanged"/>
+            
+        </Grid>
+        <ListView Grid.Row="1"
+                  Margin="10"
+                  x:Name="LvUserTV"
+                  Width="900"
+                  HorizontalAlignment="Left">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Border Margin="5,5,5,0"
+                            BorderBrush="Black"
+                            BorderThickness="1"
+                            Width="850" Height="150"
+                Background="{Binding ColorUser}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="150"/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="150"/>
+                            </Grid.ColumnDefinitions>
+                            <Image x:Name="PhotoUser"
+                       Margin="10" Source="{Binding PhotoPath}"/>
+                            <TextBlock x:Name="TbFIO"
+                           Grid.Column="1"
+                           Text="{Binding FIO}"
+                           Width="330" Height="25"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           Margin="10,10,0,0"
+                           Style="{StaticResource Tb3}"/>
+                            <TextBlock Grid.Column="1"
+                           Text="Колличество штрафов:"
+                           Width="168" Height="25"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           Margin="10,40,0,0"
+                           Style="{StaticResource Tb3}"/>
+                            <TextBlock 
+                           Grid.Column="1"
+                           Text="{Binding CountPenalty}"
+                           Width="50" Height="25"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           Margin="180,40,0,0"
+                           Style="{StaticResource Tb3}"/>
+                            <TextBlock Grid.Column="1"
+                           Text="Сумма всех штрафов:"
+                           Width="160" Height="25"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           Margin="10,70,0,0"
+                           Style="{StaticResource Tb3}"/>
+                            <TextBlock 
+                           Grid.Column="1"
+                           Text="{Binding Converter={StaticResource Converter}, Path = SumPenalty}"
+                           Width="100" Height="25"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           Margin="170,70,0,0"
+                           Style="{StaticResource Tb3}"/>
+                            <TextBlock Grid.Column="1"
+                           Text="Оплачено:"
+                           Width="80" Height="25"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           Margin="292,40,0,0"
+                           Style="{StaticResource Tb3}"/>
+                            <TextBlock x:Name="TbBrand"
+                           Grid.Column="1"
+                           Text="{Binding Paid}"
+                           Width="136" Height="25"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           Margin="375,40,0,0"
+                           Style="{StaticResource Tb3}"/>
+                            <TextBlock Grid.Column="1"
+                           Text="Не оплачено:"
+                           Width="100" Height="25"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           Margin="271,70,0,0"
+                           Style="{StaticResource Tb3}"/>
+                            <TextBlock 
+                           Grid.Column="1"
+                           Text="{Binding Unpaid}"
+                           Width="136" Height="25"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           Margin="375,70,0,0"
+                           Style="{StaticResource Tb3}"/>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </Grid>
+</Page>

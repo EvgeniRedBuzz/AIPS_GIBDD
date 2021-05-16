@@ -4,43 +4,43 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="bd0fc283acff4198b73ac25091ec6abd" Name="Diagram1">
-        <EntityTypeShape EntityType="TestGibddModel.Article" Width="1.5" PointX="10.5" PointY="12.5" />
-        <EntityTypeShape EntityType="TestGibddModel.BrandTV" Width="1.5" PointX="1.5" PointY="16.75" />
-        <EntityTypeShape EntityType="TestGibddModel.CategoryTV" Width="1.5" PointX="0.75" PointY="10.75" />
-        <EntityTypeShape EntityType="TestGibddModel.CertificateRegistration" Width="1.5" PointX="5.25" PointY="6.25" />
-        <EntityTypeShape EntityType="TestGibddModel.Color" Width="1.5" PointX="0.75" PointY="19.25" />
-        <EntityTypeShape EntityType="TestGibddModel.Department" Width="1.5" PointX="3" PointY="19.625" />
-        <EntityTypeShape EntityType="TestGibddModel.DriverLicence" Width="1.5" PointX="8.25" PointY="6.25" />
-        <EntityTypeShape EntityType="TestGibddModel.DrivingLicenceCategory" Width="1.5" PointX="10.5" PointY="5.5" />
-        <EntityTypeShape EntityType="TestGibddModel.Employee" Width="1.5" PointX="5.25" PointY="2.25" />
-        <EntityTypeShape EntityType="TestGibddModel.Gender" Width="1.5" PointX="0.75" PointY="6.75" />
-        <EntityTypeShape EntityType="TestGibddModel.ModelTV" Width="1.5" PointX="0.75" PointY="13.5" />
-        <EntityTypeShape EntityType="TestGibddModel.Penalty" Width="1.5" PointX="10.5" PointY="9.375" />
-        <EntityTypeShape EntityType="TestGibddModel.PenaltyArticle" Width="1.5" PointX="12.75" PointY="9.5" />
-        <EntityTypeShape EntityType="TestGibddModel.Position" Width="1.5" PointX="3" PointY="2.75" />
-        <EntityTypeShape EntityType="TestGibddModel.sysdiagrams" Width="1.5" PointX="7.75" PointY="0.75" />
-        <EntityTypeShape EntityType="TestGibddModel.TransportVehicle" Width="1.5" PointX="3" PointY="13" />
-        <EntityTypeShape EntityType="TestGibddModel.User" Width="1.5" PointX="3" PointY="6" />
-        <AssociationConnector Association="TestGibddModel.FK_PenaltyArticle_Article" />
-        <AssociationConnector Association="TestGibddModel.FK_ModelTV_BrandTV" />
-        <AssociationConnector Association="TestGibddModel.FK_DrivingLicenceCategory_CategoryTV" />
-        <AssociationConnector Association="TestGibddModel.FK_TransportVehicle_CategoryTV" />
-        <AssociationConnector Association="TestGibddModel.FK_CertificateRegistration_Department" />
-        <AssociationConnector Association="TestGibddModel.FK_CertificateRegistration_TransportVehicle" />
-        <AssociationConnector Association="TestGibddModel.FK_CertificateRegistration_User" />
-        <AssociationConnector Association="TestGibddModel.FK_TransportVehicle_Color" />
-        <AssociationConnector Association="TestGibddModel.FK_DriverLicence_Department" />
-        <AssociationConnector Association="TestGibddModel.FK_DriverLicence_User" />
-        <AssociationConnector Association="TestGibddModel.FK_DrivingLicenceCategory_DriverLicence" />
-        <AssociationConnector Association="TestGibddModel.FK_Penalty_DriverLicence" />
-        <AssociationConnector Association="TestGibddModel.FK_Employee_Position" />
-        <AssociationConnector Association="TestGibddModel.FK_Employee_User" />
-        <AssociationConnector Association="TestGibddModel.FK_User_Gender" />
-        <AssociationConnector Association="TestGibddModel.FK_TransportVehicle_ModelTV" />
-        <AssociationConnector Association="TestGibddModel.FK_PenaltyArticle_Penalty" />
-        <EntityTypeShape EntityType="TestGibddModel.UserPenalty" Width="1.5" PointX="5.375" PointY="9.75" />
-        <EntityTypeShape EntityType="TestGibddModel.UserTransportVehicle" Width="1.5" PointX="7.375" PointY="9.75" />
+      <Diagram DiagramId="56645c91da284279860a2e7539697c56" Name="Diagram1">
+        <EntityTypeShape EntityType="TestGibddModel.Article" Width="1.5" PointX="10.5" PointY="13.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="TestGibddModel.BrandTV" Width="1.5" PointX="1.5" PointY="19.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="TestGibddModel.CategoryTV" Width="1.5" PointX="0.75" PointY="11.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="TestGibddModel.CertificateRegistration" Width="1.5" PointX="5.25" PointY="7.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="TestGibddModel.Color" Width="1.5" PointX="0.75" PointY="14" IsExpanded="true" />
+        <EntityTypeShape EntityType="TestGibddModel.Department" Width="1.5" PointX="3" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TestGibddModel.DriverLicence" Width="1.5" PointX="8.25" PointY="7.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="TestGibddModel.DrivingLicenceCategory" Width="1.5" PointX="10.5" PointY="6.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="TestGibddModel.Employee" Width="1.5" PointX="5.25" PointY="3.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="TestGibddModel.Gender" Width="1.5" PointX="0.75" PointY="7.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="TestGibddModel.ModelTV" Width="1.5" PointX="0.75" PointY="16.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="TestGibddModel.Penalty" Width="1.5" PointX="10.5" PointY="10.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="TestGibddModel.PenaltyArticle" Width="1.5" PointX="12.75" PointY="10.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="TestGibddModel.Position" Width="1.5" PointX="3" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="TestGibddModel.sysdiagrams" Width="1.5" PointX="7.75" PointY="1.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TestGibddModel.TransportVehicle" Width="1.5" PointX="3" PointY="13.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="TestGibddModel.User" Width="1.5" PointX="3" PointY="7.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="TestGibddModel.UserPenalty" Width="1.5" PointX="9.75" PointY="1.75" IsExpanded="true" />
+        <AssociationConnector Association="TestGibddModel.FK_PenaltyArticle_Article" ManuallyRouted="false" />
+        <AssociationConnector Association="TestGibddModel.FK_ModelTV_BrandTV" ManuallyRouted="false" />
+        <AssociationConnector Association="TestGibddModel.FK_DrivingLicenceCategory_CategoryTV" ManuallyRouted="false" />
+        <AssociationConnector Association="TestGibddModel.FK_TransportVehicle_CategoryTV" ManuallyRouted="false" />
+        <AssociationConnector Association="TestGibddModel.FK_CertificateRegistration_Department" ManuallyRouted="false" />
+        <AssociationConnector Association="TestGibddModel.FK_CertificateRegistration_TransportVehicle" ManuallyRouted="false" />
+        <AssociationConnector Association="TestGibddModel.FK_CertificateRegistration_User" ManuallyRouted="false" />
+        <AssociationConnector Association="TestGibddModel.FK_TransportVehicle_Color" ManuallyRouted="false" />
+        <AssociationConnector Association="TestGibddModel.FK_DriverLicence_Department" ManuallyRouted="false" />
+        <AssociationConnector Association="TestGibddModel.FK_DriverLicence_User" ManuallyRouted="false" />
+        <AssociationConnector Association="TestGibddModel.FK_DrivingLicenceCategory_DriverLicence" ManuallyRouted="false" />
+        <AssociationConnector Association="TestGibddModel.FK_Penalty_DriverLicence" ManuallyRouted="false" />
+        <AssociationConnector Association="TestGibddModel.FK_Employee_Position" ManuallyRouted="false" />
+        <AssociationConnector Association="TestGibddModel.FK_Employee_User" ManuallyRouted="false" />
+        <AssociationConnector Association="TestGibddModel.FK_User_Gender" ManuallyRouted="false" />
+        <AssociationConnector Association="TestGibddModel.FK_TransportVehicle_ModelTV" ManuallyRouted="false" />
+        <AssociationConnector Association="TestGibddModel.FK_PenaltyArticle_Penalty" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="TestGibddModel.UserTransportVehicle" Width="1.5" PointX="5.375" PointY="10.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

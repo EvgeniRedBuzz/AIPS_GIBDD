@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using static AIPS_GIBDD.ClassHelper.PageNavigation;
 
 namespace AIPS_GIBDD.Pages
 {
@@ -25,6 +26,8 @@ namespace AIPS_GIBDD.Pages
         private int x;
         private string Hour;
         private string Minute;
+        private string Second;
+
 
         private void timerStart()
         {
@@ -42,17 +45,7 @@ namespace AIPS_GIBDD.Pages
 
         private void Time()
         {
-            Hour = DateTime.Now.TimeOfDay.Hours.ToString();
-            Minute = DateTime.Now.TimeOfDay.Minutes.ToString();
-            if (Hour.Length < 2)
-            {
-                Hour = "0" + Hour;
-            }
-            if (Minute.Length < 2)
-            {
-                Minute = "0" + Minute;
-            }
-            LbTimer.Content = Hour + ":" + Minute;
+            LbTimer.Content = DateTime.Now.ToString();
         }
 
         public StartPage()
@@ -60,6 +53,11 @@ namespace AIPS_GIBDD.Pages
             InitializeComponent();
             timerStart();
             Time();
+        }
+
+        private void BtnRefundUser_Click(object sender, RoutedEventArgs e)
+        {
+            frame.Navigate(new PenaltyPage());
         }
     }
 }

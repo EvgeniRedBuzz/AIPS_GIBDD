@@ -18,12 +18,12 @@ namespace AIPS_GIBDD.EF
         public string FIO { get; set; }
         public long Number { get; set; }
         public Nullable<System.DateTime> DateReceipt { get; set; }
-        public string NumberTransportVehicle { get; set; }
         public string VIN { get; set; }
         public string Brand { get; set; }
         public string Model { get; set; }
         public string Color { get; set; }
         public int IdBrand { get; set; }
         public string PhotoTVPath { get; set; }
+        public string NumberTransportVehicle { get; set; }
     }
 }

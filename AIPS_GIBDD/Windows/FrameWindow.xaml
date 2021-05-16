@@ -152,11 +152,10 @@
                     <ImageBrush ImageSource="/Resources/Search2.png"/>
                 </Button.Background>
                 <Button.ToolTip>
-                    <Border>
-
-                    </Border>
+                    <ToolTip Style="{StaticResource Tt3}">
+                        <TextBlock Text="Поиск"/>
+                    </ToolTip>
                 </Button.ToolTip>
-
             </Button>
 
             <Button x:Name="BtnRefund"
@@ -171,6 +170,11 @@
                 <Button.Background>
                     <ImageBrush ImageSource="/Resources/Refund.png"/>
                 </Button.Background>
+                <Button.ToolTip>
+                    <ToolTip Style="{StaticResource Tt3}">
+                        <TextBlock Text="Штрафы"/>
+                    </ToolTip>
+                </Button.ToolTip>
             </Button>
 
             <Button x:Name="BtnEmployeeList"
@@ -184,6 +188,11 @@
                 <Button.Background>
                     <ImageBrush ImageSource="/Resources/Employee.png"/>
                 </Button.Background>
+                <Button.ToolTip>
+                    <ToolTip Style="{StaticResource Tt3}">
+                        <TextBlock Text="Сотрудники"/>
+                    </ToolTip>
+                </Button.ToolTip>
             </Button>
 
             <Button x:Name="BtnCar"
@@ -195,7 +204,7 @@
                     BorderThickness="0"
                     Style="{StaticResource MouseEnterBtn}">
                 <Button.Background>
-                    <ImageBrush ImageSource="/Resources/TransportVehicle.png"/>
+                    <ImageBrush ImageSource="/Resources/Licence.png"/>
                 </Button.Background>
             </Button>
             <Button x:Name="BtnAccount"

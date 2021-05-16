@@ -163,10 +163,15 @@
         <EntityType Name="UserPenalty">
           <Key>
             <PropertyRef Name="FIO" />
+            <PropertyRef Name="ColorUser" />
           </Key>
+          <Property Name="PhotoPath" Type="nvarchar" MaxLength="50" />
           <Property Name="FIO" Type="nvarchar" MaxLength="152" Nullable="false" />
           <Property Name="CountPenalty" Type="int" />
           <Property Name="SumPenalty" Type="decimal" Precision="38" Scale="2" />
+          <Property Name="Paid" Type="int" />
+          <Property Name="Unpaid" Type="int" />
+          <Property Name="ColorUser" Type="varchar" MaxLength="7" Nullable="false" />
         </EntityType>
         <!--Ошибки, обнаруженные при создании:
 предупреждение 6002: В таблице или представлении "TestGibdd.dbo.UserTransportVehicle" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
@@ -183,13 +188,13 @@
           <Property Name="FIO" Type="nvarchar" MaxLength="152" Nullable="false" />
           <Property Name="Number" Type="bigint" Nullable="false" />
           <Property Name="DateReceipt" Type="date" />
-          <Property Name="NumberTransportVehicle" Type="nvarchar" MaxLength="10" />
           <Property Name="VIN" Type="nvarchar" MaxLength="17" />
           <Property Name="Brand" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Model" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Color" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="IdBrand" Type="int" Nullable="false" />
           <Property Name="PhotoTVPath" Type="nvarchar" MaxLength="50" />
+          <Property Name="NumberTransportVehicle" Type="nvarchar" MaxLength="10" />
         </EntityType>
         <Association Name="FK_CertificateRegistration_Department">
           <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
@@ -446,9 +451,13 @@
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserPenalty" EntityType="Self.UserPenalty" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
+    [UserPenalty].[PhotoPath] AS [PhotoPath], 
     [UserPenalty].[FIO] AS [FIO], 
     [UserPenalty].[CountPenalty] AS [CountPenalty], 
-    [UserPenalty].[SumPenalty] AS [SumPenalty]
+    [UserPenalty].[SumPenalty] AS [SumPenalty], 
+    [UserPenalty].[Paid] AS [Paid], 
+    [UserPenalty].[Unpaid] AS [Unpaid], 
+    [UserPenalty].[ColorUser] AS [ColorUser]
     FROM [dbo].[UserPenalty] AS [UserPenalty]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="UserTransportVehicle" EntityType="Self.UserTransportVehicle" store:Type="Views" store:Schema="dbo">
@@ -457,13 +466,13 @@
     [UserTransportVehicle].[FIO] AS [FIO], 
     [UserTransportVehicle].[Number] AS [Number], 
     [UserTransportVehicle].[DateReceipt] AS [DateReceipt], 
-    [UserTransportVehicle].[NumberTransportVehicle] AS [NumberTransportVehicle], 
     [UserTransportVehicle].[VIN] AS [VIN], 
     [UserTransportVehicle].[Brand] AS [Brand], 
     [UserTransportVehicle].[Model] AS [Model], 
     [UserTransportVehicle].[Color] AS [Color], 
     [UserTransportVehicle].[IdBrand] AS [IdBrand], 
-    [UserTransportVehicle].[PhotoTVPath] AS [PhotoTVPath]
+    [UserTransportVehicle].[PhotoTVPath] AS [PhotoTVPath], 
+    [UserTransportVehicle].[NumberTransportVehicle] AS [NumberTransportVehicle]
     FROM [dbo].[UserTransportVehicle] AS [UserTransportVehicle]</DefiningQuery>
           </EntitySet>
           <AssociationSet Name="FK_CertificateRegistration_Department" Association="Self.FK_CertificateRegistration_Department">
@@ -539,7 +548,497 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="TestGibddModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Article">
+          <Key>
+            <PropertyRef Name="IdArticle" />
+          </Key>
+          <Property Name="IdArticle" Type="Int32" Nullable="false" />
+          <Property Name="ArticleNumber" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Cost" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <NavigationProperty Name="PenaltyArticle" Relationship="Self.FK_PenaltyArticle_Article" FromRole="Article" ToRole="PenaltyArticle" />
+        </EntityType>
+        <EntityType Name="BrandTV">
+          <Key>
+            <PropertyRef Name="IdBrand" />
+          </Key>
+          <Property Name="IdBrand" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NameBrand" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="ModelTV" Relationship="Self.FK_ModelTV_BrandTV" FromRole="BrandTV" ToRole="ModelTV" />
+        </EntityType>
+        <EntityType Name="CategoryTV">
+          <Key>
+            <PropertyRef Name="IdCategory" />
+          </Key>
+          <Property Name="IdCategory" Type="Int32" Nullable="false" />
+          <Property Name="IndexCategory" Type="String" MaxLength="5" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="NameCategory" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="DrivingLicenceCategory" Relationship="Self.FK_DrivingLicenceCategory_CategoryTV" FromRole="CategoryTV" ToRole="DrivingLicenceCategory" />
+          <NavigationProperty Name="TransportVehicle" Relationship="Self.FK_TransportVehicle_CategoryTV" FromRole="CategoryTV" ToRole="TransportVehicle" />
+        </EntityType>
+        <EntityType Name="CertificateRegistration">
+          <Key>
+            <PropertyRef Name="Number" />
+          </Key>
+          <Property Name="Number" Type="Int64" Nullable="false" />
+          <Property Name="IdPerson" Type="Int32" Nullable="false" />
+          <Property Name="VIN" Type="String" MaxLength="17" FixedLength="false" Unicode="true" />
+          <Property Name="NumberTransportVehicle" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="IdDepartment" Type="Int32" />
+          <Property Name="DateReceipt" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="Department" Relationship="Self.FK_CertificateRegistration_Department" FromRole="CertificateRegistration" ToRole="Department" />
+          <NavigationProperty Name="TransportVehicle" Relationship="Self.FK_CertificateRegistration_TransportVehicle" FromRole="CertificateRegistration" ToRole="TransportVehicle" />
+          <NavigationProperty Name="User" Relationship="Self.FK_CertificateRegistration_User" FromRole="CertificateRegistration" ToRole="User" />
+        </EntityType>
+        <EntityType Name="Color">
+          <Key>
+            <PropertyRef Name="IdColor" />
+          </Key>
+          <Property Name="IdColor" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NameColor" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="TransportVehicle" Relationship="Self.FK_TransportVehicle_Color" FromRole="Color" ToRole="TransportVehicle" />
+        </EntityType>
+        <EntityType Name="Department">
+          <Key>
+            <PropertyRef Name="IdDepartment" />
+          </Key>
+          <Property Name="IdDepartment" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NameDepartment" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="CertificateRegistration" Relationship="Self.FK_CertificateRegistration_Department" FromRole="Department" ToRole="CertificateRegistration" />
+          <NavigationProperty Name="DriverLicence" Relationship="Self.FK_DriverLicence_Department" FromRole="Department" ToRole="DriverLicence" />
+        </EntityType>
+        <EntityType Name="DriverLicence">
+          <Key>
+            <PropertyRef Name="NumberDrivingLicence" />
+          </Key>
+          <Property Name="NumberDrivingLicence" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IdPerson" Type="Int32" Nullable="false" />
+          <Property Name="DateReceipt" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="IdDepartment" Type="Int32" Nullable="false" />
+          <Property Name="Residence" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Department" Relationship="Self.FK_DriverLicence_Department" FromRole="DriverLicence" ToRole="Department" />
+          <NavigationProperty Name="User" Relationship="Self.FK_DriverLicence_User" FromRole="DriverLicence" ToRole="User" />
+          <NavigationProperty Name="DrivingLicenceCategory" Relationship="Self.FK_DrivingLicenceCategory_DriverLicence" FromRole="DriverLicence" ToRole="DrivingLicenceCategory" />
+          <NavigationProperty Name="Penalty" Relationship="Self.FK_Penalty_DriverLicence" FromRole="DriverLicence" ToRole="Penalty" />
+        </EntityType>
+        <EntityType Name="DrivingLicenceCategory">
+          <Key>
+            <PropertyRef Name="IdDLC" />
+          </Key>
+          <Property Name="IdDLC" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NumberDrivingLicence" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IdCategory" Type="Int32" Nullable="false" />
+          <Property Name="DateReseiptCategory" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="CategoryTV" Relationship="Self.FK_DrivingLicenceCategory_CategoryTV" FromRole="DrivingLicenceCategory" ToRole="CategoryTV" />
+          <NavigationProperty Name="DriverLicence" Relationship="Self.FK_DrivingLicenceCategory_DriverLicence" FromRole="DrivingLicenceCategory" ToRole="DriverLicence" />
+        </EntityType>
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="IdEmployee" />
+          </Key>
+          <Property Name="IdEmployee" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdPerson" Type="Int32" Nullable="false" />
+          <Property Name="Login" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IdPosition" Type="Int32" Nullable="false" />
+          <Property Name="DateStart" Type="DateTime" Precision="0" />
+          <Property Name="PhotoPath" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="Position" Relationship="Self.FK_Employee_Position" FromRole="Employee" ToRole="Position" />
+          <NavigationProperty Name="User" Relationship="Self.FK_Employee_User" FromRole="Employee" ToRole="User" />
+        </EntityType>
+        <EntityType Name="Gender">
+          <Key>
+            <PropertyRef Name="GenderCode" />
+          </Key>
+          <Property Name="GenderCode" Type="String" MaxLength="1" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="GenderName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="Self.FK_User_Gender" FromRole="Gender" ToRole="User" />
+        </EntityType>
+        <EntityType Name="ModelTV">
+          <Key>
+            <PropertyRef Name="IdModelTV" />
+          </Key>
+          <Property Name="IdModelTV" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdBrandTV" Type="Int32" Nullable="false" />
+          <Property Name="NameModel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PhotoTVPath" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="BrandTV" Relationship="Self.FK_ModelTV_BrandTV" FromRole="ModelTV" ToRole="BrandTV" />
+          <NavigationProperty Name="TransportVehicle" Relationship="Self.FK_TransportVehicle_ModelTV" FromRole="ModelTV" ToRole="TransportVehicle" />
+        </EntityType>
+        <EntityType Name="Penalty">
+          <Key>
+            <PropertyRef Name="IdPenalty" />
+          </Key>
+          <Property Name="IdPenalty" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NumberDrivingLicence" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Location" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="DateOfReceipt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IsPaid" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="DriverLicence" Relationship="Self.FK_Penalty_DriverLicence" FromRole="Penalty" ToRole="DriverLicence" />
+          <NavigationProperty Name="PenaltyArticle" Relationship="Self.FK_PenaltyArticle_Penalty" FromRole="Penalty" ToRole="PenaltyArticle" />
+        </EntityType>
+        <EntityType Name="PenaltyArticle">
+          <Key>
+            <PropertyRef Name="IdPenaltyArticle" />
+          </Key>
+          <Property Name="IdPenaltyArticle" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdPenalty" Type="Int32" Nullable="false" />
+          <Property Name="IdArticle" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Article" Relationship="Self.FK_PenaltyArticle_Article" FromRole="PenaltyArticle" ToRole="Article" />
+          <NavigationProperty Name="Penalty" Relationship="Self.FK_PenaltyArticle_Penalty" FromRole="PenaltyArticle" ToRole="Penalty" />
+        </EntityType>
+        <EntityType Name="Position">
+          <Key>
+            <PropertyRef Name="IdPosition" />
+          </Key>
+          <Property Name="IdPosition" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NamePosition" Type="String" MaxLength="80" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Employee" Relationship="Self.FK_Employee_Position" FromRole="Position" ToRole="Employee" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="TransportVehicle">
+          <Key>
+            <PropertyRef Name="VIN" />
+          </Key>
+          <Property Name="VIN" Type="String" MaxLength="17" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IdModel" Type="Int32" Nullable="false" />
+          <Property Name="IdColor" Type="Int32" Nullable="false" />
+          <Property Name="IdCategoryTV" Type="Int32" Nullable="false" />
+          <Property Name="YearOfManufacture" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="CategoryTV" Relationship="Self.FK_TransportVehicle_CategoryTV" FromRole="TransportVehicle" ToRole="CategoryTV" />
+          <NavigationProperty Name="CertificateRegistration" Relationship="Self.FK_CertificateRegistration_TransportVehicle" FromRole="TransportVehicle" ToRole="CertificateRegistration" />
+          <NavigationProperty Name="Color" Relationship="Self.FK_TransportVehicle_Color" FromRole="TransportVehicle" ToRole="Color" />
+          <NavigationProperty Name="ModelTV" Relationship="Self.FK_TransportVehicle_ModelTV" FromRole="TransportVehicle" ToRole="ModelTV" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="IdPerson" />
+          </Key>
+          <Property Name="IdPerson" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Patronymic" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="GenderCode" Type="String" MaxLength="1" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="DateOfBirth" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="PhotoPath" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="CertificateRegistration" Relationship="Self.FK_CertificateRegistration_User" FromRole="User" ToRole="CertificateRegistration" />
+          <NavigationProperty Name="DriverLicence" Relationship="Self.FK_DriverLicence_User" FromRole="User" ToRole="DriverLicence" />
+          <NavigationProperty Name="Employee" Relationship="Self.FK_Employee_User" FromRole="User" ToRole="Employee" />
+          <NavigationProperty Name="Gender" Relationship="Self.FK_User_Gender" FromRole="User" ToRole="Gender" />
+        </EntityType>
+        <EntityType Name="UserPenalty">
+          <Key>
+            <PropertyRef Name="FIO" />
+            <PropertyRef Name="ColorUser" />
+          </Key>
+          <Property Name="PhotoPath" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FIO" Type="String" MaxLength="152" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="SumPenalty" Type="Decimal" Precision="38" Scale="2" />
+          <Property Name="Paid" Type="Int32" />
+          <Property Name="Unpaid" Type="Int32" />
+          <Property Name="ColorUser" Type="String" MaxLength="7" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CountPenalty" Type="Int32" />
+        </EntityType>
+        <Association Name="FK_PenaltyArticle_Article">
+          <End Role="Article" Type="Self.Article" Multiplicity="1" />
+          <End Role="PenaltyArticle" Type="Self.PenaltyArticle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Article">
+              <PropertyRef Name="IdArticle" />
+            </Principal>
+            <Dependent Role="PenaltyArticle">
+              <PropertyRef Name="IdArticle" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ModelTV_BrandTV">
+          <End Role="BrandTV" Type="Self.BrandTV" Multiplicity="1" />
+          <End Role="ModelTV" Type="Self.ModelTV" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BrandTV">
+              <PropertyRef Name="IdBrand" />
+            </Principal>
+            <Dependent Role="ModelTV">
+              <PropertyRef Name="IdBrandTV" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DrivingLicenceCategory_CategoryTV">
+          <End Role="CategoryTV" Type="Self.CategoryTV" Multiplicity="1" />
+          <End Role="DrivingLicenceCategory" Type="Self.DrivingLicenceCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CategoryTV">
+              <PropertyRef Name="IdCategory" />
+            </Principal>
+            <Dependent Role="DrivingLicenceCategory">
+              <PropertyRef Name="IdCategory" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TransportVehicle_CategoryTV">
+          <End Role="CategoryTV" Type="Self.CategoryTV" Multiplicity="1" />
+          <End Role="TransportVehicle" Type="Self.TransportVehicle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CategoryTV">
+              <PropertyRef Name="IdCategory" />
+            </Principal>
+            <Dependent Role="TransportVehicle">
+              <PropertyRef Name="IdCategoryTV" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CertificateRegistration_Department">
+          <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
+          <End Role="CertificateRegistration" Type="Self.CertificateRegistration" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="IdDepartment" />
+            </Principal>
+            <Dependent Role="CertificateRegistration">
+              <PropertyRef Name="IdDepartment" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CertificateRegistration_TransportVehicle">
+          <End Role="TransportVehicle" Type="Self.TransportVehicle" Multiplicity="0..1" />
+          <End Role="CertificateRegistration" Type="Self.CertificateRegistration" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TransportVehicle">
+              <PropertyRef Name="VIN" />
+            </Principal>
+            <Dependent Role="CertificateRegistration">
+              <PropertyRef Name="VIN" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CertificateRegistration_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="CertificateRegistration" Type="Self.CertificateRegistration" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="IdPerson" />
+            </Principal>
+            <Dependent Role="CertificateRegistration">
+              <PropertyRef Name="IdPerson" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TransportVehicle_Color">
+          <End Role="Color" Type="Self.Color" Multiplicity="1" />
+          <End Role="TransportVehicle" Type="Self.TransportVehicle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Color">
+              <PropertyRef Name="IdColor" />
+            </Principal>
+            <Dependent Role="TransportVehicle">
+              <PropertyRef Name="IdColor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DriverLicence_Department">
+          <End Role="Department" Type="Self.Department" Multiplicity="1" />
+          <End Role="DriverLicence" Type="Self.DriverLicence" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="IdDepartment" />
+            </Principal>
+            <Dependent Role="DriverLicence">
+              <PropertyRef Name="IdDepartment" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DriverLicence_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="DriverLicence" Type="Self.DriverLicence" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="IdPerson" />
+            </Principal>
+            <Dependent Role="DriverLicence">
+              <PropertyRef Name="IdPerson" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DrivingLicenceCategory_DriverLicence">
+          <End Role="DriverLicence" Type="Self.DriverLicence" Multiplicity="1" />
+          <End Role="DrivingLicenceCategory" Type="Self.DrivingLicenceCategory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DriverLicence">
+              <PropertyRef Name="NumberDrivingLicence" />
+            </Principal>
+            <Dependent Role="DrivingLicenceCategory">
+              <PropertyRef Name="NumberDrivingLicence" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Penalty_DriverLicence">
+          <End Role="DriverLicence" Type="Self.DriverLicence" Multiplicity="1" />
+          <End Role="Penalty" Type="Self.Penalty" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DriverLicence">
+              <PropertyRef Name="NumberDrivingLicence" />
+            </Principal>
+            <Dependent Role="Penalty">
+              <PropertyRef Name="NumberDrivingLicence" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employee_Position">
+          <End Role="Position" Type="Self.Position" Multiplicity="1" />
+          <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Position">
+              <PropertyRef Name="IdPosition" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="IdPosition" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Employee_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Employee" Type="Self.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="IdPerson" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="IdPerson" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_Gender">
+          <End Role="Gender" Type="Self.Gender" Multiplicity="1" />
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gender">
+              <PropertyRef Name="GenderCode" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="GenderCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_TransportVehicle_ModelTV">
+          <End Role="ModelTV" Type="Self.ModelTV" Multiplicity="1" />
+          <End Role="TransportVehicle" Type="Self.TransportVehicle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ModelTV">
+              <PropertyRef Name="IdModelTV" />
+            </Principal>
+            <Dependent Role="TransportVehicle">
+              <PropertyRef Name="IdModel" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PenaltyArticle_Penalty">
+          <End Role="Penalty" Type="Self.Penalty" Multiplicity="1" />
+          <End Role="PenaltyArticle" Type="Self.PenaltyArticle" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Penalty">
+              <PropertyRef Name="IdPenalty" />
+            </Principal>
+            <Dependent Role="PenaltyArticle">
+              <PropertyRef Name="IdPenalty" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Article" EntityType="Self.Article" />
+          <EntitySet Name="BrandTV" EntityType="Self.BrandTV" />
+          <EntitySet Name="CategoryTV" EntityType="Self.CategoryTV" />
+          <EntitySet Name="CertificateRegistration" EntityType="Self.CertificateRegistration" />
+          <EntitySet Name="Color" EntityType="Self.Color" />
+          <EntitySet Name="Department" EntityType="Self.Department" />
+          <EntitySet Name="DriverLicence" EntityType="Self.DriverLicence" />
+          <EntitySet Name="DrivingLicenceCategory" EntityType="Self.DrivingLicenceCategory" />
+          <EntitySet Name="Employee" EntityType="Self.Employee" />
+          <EntitySet Name="Gender" EntityType="Self.Gender" />
+          <EntitySet Name="ModelTV" EntityType="Self.ModelTV" />
+          <EntitySet Name="Penalty" EntityType="Self.Penalty" />
+          <EntitySet Name="PenaltyArticle" EntityType="Self.PenaltyArticle" />
+          <EntitySet Name="Position" EntityType="Self.Position" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="TransportVehicle" EntityType="Self.TransportVehicle" />
+          <EntitySet Name="User" EntityType="Self.User" />
+          <EntitySet Name="UserPenalty" EntityType="Self.UserPenalty" />
+          <AssociationSet Name="FK_PenaltyArticle_Article" Association="Self.FK_PenaltyArticle_Article">
+            <End Role="Article" EntitySet="Article" />
+            <End Role="PenaltyArticle" EntitySet="PenaltyArticle" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ModelTV_BrandTV" Association="Self.FK_ModelTV_BrandTV">
+            <End Role="BrandTV" EntitySet="BrandTV" />
+            <End Role="ModelTV" EntitySet="ModelTV" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DrivingLicenceCategory_CategoryTV" Association="Self.FK_DrivingLicenceCategory_CategoryTV">
+            <End Role="CategoryTV" EntitySet="CategoryTV" />
+            <End Role="DrivingLicenceCategory" EntitySet="DrivingLicenceCategory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TransportVehicle_CategoryTV" Association="Self.FK_TransportVehicle_CategoryTV">
+            <End Role="CategoryTV" EntitySet="CategoryTV" />
+            <End Role="TransportVehicle" EntitySet="TransportVehicle" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CertificateRegistration_Department" Association="Self.FK_CertificateRegistration_Department">
+            <End Role="Department" EntitySet="Department" />
+            <End Role="CertificateRegistration" EntitySet="CertificateRegistration" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CertificateRegistration_TransportVehicle" Association="Self.FK_CertificateRegistration_TransportVehicle">
+            <End Role="TransportVehicle" EntitySet="TransportVehicle" />
+            <End Role="CertificateRegistration" EntitySet="CertificateRegistration" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CertificateRegistration_User" Association="Self.FK_CertificateRegistration_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="CertificateRegistration" EntitySet="CertificateRegistration" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TransportVehicle_Color" Association="Self.FK_TransportVehicle_Color">
+            <End Role="Color" EntitySet="Color" />
+            <End Role="TransportVehicle" EntitySet="TransportVehicle" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DriverLicence_Department" Association="Self.FK_DriverLicence_Department">
+            <End Role="Department" EntitySet="Department" />
+            <End Role="DriverLicence" EntitySet="DriverLicence" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DriverLicence_User" Association="Self.FK_DriverLicence_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="DriverLicence" EntitySet="DriverLicence" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DrivingLicenceCategory_DriverLicence" Association="Self.FK_DrivingLicenceCategory_DriverLicence">
+            <End Role="DriverLicence" EntitySet="DriverLicence" />
+            <End Role="DrivingLicenceCategory" EntitySet="DrivingLicenceCategory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Penalty_DriverLicence" Association="Self.FK_Penalty_DriverLicence">
+            <End Role="DriverLicence" EntitySet="DriverLicence" />
+            <End Role="Penalty" EntitySet="Penalty" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employee_Position" Association="Self.FK_Employee_Position">
+            <End Role="Position" EntitySet="Position" />
+            <End Role="Employee" EntitySet="Employee" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Employee_User" Association="Self.FK_Employee_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Employee" EntitySet="Employee" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Gender" Association="Self.FK_User_Gender">
+            <End Role="Gender" EntitySet="Gender" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
+          <AssociationSet Name="FK_TransportVehicle_ModelTV" Association="Self.FK_TransportVehicle_ModelTV">
+            <End Role="ModelTV" EntitySet="ModelTV" />
+            <End Role="TransportVehicle" EntitySet="TransportVehicle" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PenaltyArticle_Penalty" Association="Self.FK_PenaltyArticle_Penalty">
+            <End Role="Penalty" EntitySet="Penalty" />
+            <End Role="PenaltyArticle" EntitySet="PenaltyArticle" />
+          </AssociationSet>
           <FunctionImport Name="sp_alterdiagram">
             <Parameter Name="diagramname" Mode="In" Type="String" />
             <Parameter Name="owner_id" Mode="In" Type="Int32" />
@@ -570,94 +1069,8 @@
             <Parameter Name="new_diagramname" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_upgraddiagrams" />
-          <EntitySet Name="Article" EntityType="TestGibddModel.Article" />
-          <EntitySet Name="BrandTV" EntityType="TestGibddModel.BrandTV" />
-          <EntitySet Name="CategoryTV" EntityType="TestGibddModel.CategoryTV" />
-          <EntitySet Name="CertificateRegistration" EntityType="TestGibddModel.CertificateRegistration" />
-          <EntitySet Name="Color" EntityType="TestGibddModel.Color" />
-          <EntitySet Name="Department" EntityType="TestGibddModel.Department" />
-          <EntitySet Name="DriverLicence" EntityType="TestGibddModel.DriverLicence" />
-          <EntitySet Name="DrivingLicenceCategory" EntityType="TestGibddModel.DrivingLicenceCategory" />
-          <EntitySet Name="Employee" EntityType="TestGibddModel.Employee" />
-          <EntitySet Name="Gender" EntityType="TestGibddModel.Gender" />
-          <EntitySet Name="ModelTV" EntityType="TestGibddModel.ModelTV" />
-          <EntitySet Name="Penalty" EntityType="TestGibddModel.Penalty" />
-          <EntitySet Name="PenaltyArticle" EntityType="TestGibddModel.PenaltyArticle" />
-          <EntitySet Name="Position" EntityType="TestGibddModel.Position" />
-          <EntitySet Name="sysdiagrams" EntityType="TestGibddModel.sysdiagrams" />
-          <EntitySet Name="TransportVehicle" EntityType="TestGibddModel.TransportVehicle" />
-          <EntitySet Name="User" EntityType="TestGibddModel.User" />
-          <AssociationSet Name="FK_PenaltyArticle_Article" Association="TestGibddModel.FK_PenaltyArticle_Article">
-            <End Role="Article" EntitySet="Article" />
-            <End Role="PenaltyArticle" EntitySet="PenaltyArticle" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ModelTV_BrandTV" Association="TestGibddModel.FK_ModelTV_BrandTV">
-            <End Role="BrandTV" EntitySet="BrandTV" />
-            <End Role="ModelTV" EntitySet="ModelTV" />
-          </AssociationSet>
-          <AssociationSet Name="FK_DrivingLicenceCategory_CategoryTV" Association="TestGibddModel.FK_DrivingLicenceCategory_CategoryTV">
-            <End Role="CategoryTV" EntitySet="CategoryTV" />
-            <End Role="DrivingLicenceCategory" EntitySet="DrivingLicenceCategory" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TransportVehicle_CategoryTV" Association="TestGibddModel.FK_TransportVehicle_CategoryTV">
-            <End Role="CategoryTV" EntitySet="CategoryTV" />
-            <End Role="TransportVehicle" EntitySet="TransportVehicle" />
-          </AssociationSet>
-          <AssociationSet Name="FK_CertificateRegistration_Department" Association="TestGibddModel.FK_CertificateRegistration_Department">
-            <End Role="Department" EntitySet="Department" />
-            <End Role="CertificateRegistration" EntitySet="CertificateRegistration" />
-          </AssociationSet>
-          <AssociationSet Name="FK_CertificateRegistration_TransportVehicle" Association="TestGibddModel.FK_CertificateRegistration_TransportVehicle">
-            <End Role="TransportVehicle" EntitySet="TransportVehicle" />
-            <End Role="CertificateRegistration" EntitySet="CertificateRegistration" />
-          </AssociationSet>
-          <AssociationSet Name="FK_CertificateRegistration_User" Association="TestGibddModel.FK_CertificateRegistration_User">
-            <End Role="User" EntitySet="User" />
-            <End Role="CertificateRegistration" EntitySet="CertificateRegistration" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TransportVehicle_Color" Association="TestGibddModel.FK_TransportVehicle_Color">
-            <End Role="Color" EntitySet="Color" />
-            <End Role="TransportVehicle" EntitySet="TransportVehicle" />
-          </AssociationSet>
-          <AssociationSet Name="FK_DriverLicence_Department" Association="TestGibddModel.FK_DriverLicence_Department">
-            <End Role="Department" EntitySet="Department" />
-            <End Role="DriverLicence" EntitySet="DriverLicence" />
-          </AssociationSet>
-          <AssociationSet Name="FK_DriverLicence_User" Association="TestGibddModel.FK_DriverLicence_User">
-            <End Role="User" EntitySet="User" />
-            <End Role="DriverLicence" EntitySet="DriverLicence" />
-          </AssociationSet>
-          <AssociationSet Name="FK_DrivingLicenceCategory_DriverLicence" Association="TestGibddModel.FK_DrivingLicenceCategory_DriverLicence">
-            <End Role="DriverLicence" EntitySet="DriverLicence" />
-            <End Role="DrivingLicenceCategory" EntitySet="DrivingLicenceCategory" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Penalty_DriverLicence" Association="TestGibddModel.FK_Penalty_DriverLicence">
-            <End Role="DriverLicence" EntitySet="DriverLicence" />
-            <End Role="Penalty" EntitySet="Penalty" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Employee_Position" Association="TestGibddModel.FK_Employee_Position">
-            <End Role="Position" EntitySet="Position" />
-            <End Role="Employee" EntitySet="Employee" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Employee_User" Association="TestGibddModel.FK_Employee_User">
-            <End Role="User" EntitySet="User" />
-            <End Role="Employee" EntitySet="Employee" />
-          </AssociationSet>
-          <AssociationSet Name="FK_User_Gender" Association="TestGibddModel.FK_User_Gender">
-            <End Role="Gender" EntitySet="Gender" />
-            <End Role="User" EntitySet="User" />
-          </AssociationSet>
-          <AssociationSet Name="FK_TransportVehicle_ModelTV" Association="TestGibddModel.FK_TransportVehicle_ModelTV">
-            <End Role="ModelTV" EntitySet="ModelTV" />
-            <End Role="TransportVehicle" EntitySet="TransportVehicle" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PenaltyArticle_Penalty" Association="TestGibddModel.FK_PenaltyArticle_Penalty">
-            <End Role="Penalty" EntitySet="Penalty" />
-            <End Role="PenaltyArticle" EntitySet="PenaltyArticle" />
-          </AssociationSet>
-          <EntitySet Name="UserPenalty" EntityType="TestGibddModel.UserPenalty" />
           <EntitySet Name="UserTransportVehicle" EntityType="TestGibddModel.UserTransportVehicle" />
-          </EntityContainer>
+        </EntityContainer>
         <ComplexType Name="sp_helpdiagramdefinition_Result">
           <Property Type="Int32" Name="version" Nullable="true" />
           <Property Type="Binary" Name="definition" Nullable="true" />
@@ -669,405 +1082,6 @@
           <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
           <Property Type="Int32" Name="OwnerID" Nullable="false" />
         </ComplexType>
-        <EntityType Name="Article">
-          <Key>
-            <PropertyRef Name="IdArticle" />
-          </Key>
-          <Property Name="IdArticle" Type="Int32" Nullable="false" />
-          <Property Name="ArticleNumber" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="Description" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="Cost" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
-          <NavigationProperty Name="PenaltyArticle" Relationship="TestGibddModel.FK_PenaltyArticle_Article" FromRole="Article" ToRole="PenaltyArticle" />
-        </EntityType>
-        <EntityType Name="BrandTV">
-          <Key>
-            <PropertyRef Name="IdBrand" />
-          </Key>
-          <Property Name="IdBrand" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="NameBrand" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="ModelTV" Relationship="TestGibddModel.FK_ModelTV_BrandTV" FromRole="BrandTV" ToRole="ModelTV" />
-        </EntityType>
-        <EntityType Name="CategoryTV">
-          <Key>
-            <PropertyRef Name="IdCategory" />
-          </Key>
-          <Property Name="IdCategory" Type="Int32" Nullable="false" />
-          <Property Name="IndexCategory" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="true" />
-          <Property Name="NameCategory" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="DrivingLicenceCategory" Relationship="TestGibddModel.FK_DrivingLicenceCategory_CategoryTV" FromRole="CategoryTV" ToRole="DrivingLicenceCategory" />
-          <NavigationProperty Name="TransportVehicle" Relationship="TestGibddModel.FK_TransportVehicle_CategoryTV" FromRole="CategoryTV" ToRole="TransportVehicle" />
-        </EntityType>
-        <EntityType Name="CertificateRegistration">
-          <Key>
-            <PropertyRef Name="Number" />
-          </Key>
-          <Property Name="Number" Type="Int64" Nullable="false" />
-          <Property Name="IdPerson" Type="Int32" Nullable="false" />
-          <Property Name="VIN" Type="String" MaxLength="17" FixedLength="false" Unicode="true" />
-          <Property Name="NumberTransportVehicle" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="IdDepartment" Type="Int32" />
-          <Property Name="DateReceipt" Type="DateTime" Precision="0" />
-          <NavigationProperty Name="Department" Relationship="TestGibddModel.FK_CertificateRegistration_Department" FromRole="CertificateRegistration" ToRole="Department" />
-          <NavigationProperty Name="TransportVehicle" Relationship="TestGibddModel.FK_CertificateRegistration_TransportVehicle" FromRole="CertificateRegistration" ToRole="TransportVehicle" />
-          <NavigationProperty Name="User" Relationship="TestGibddModel.FK_CertificateRegistration_User" FromRole="CertificateRegistration" ToRole="User" />
-        </EntityType>
-        <EntityType Name="Color">
-          <Key>
-            <PropertyRef Name="IdColor" />
-          </Key>
-          <Property Name="IdColor" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="NameColor" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="TransportVehicle" Relationship="TestGibddModel.FK_TransportVehicle_Color" FromRole="Color" ToRole="TransportVehicle" />
-        </EntityType>
-        <EntityType Name="Department">
-          <Key>
-            <PropertyRef Name="IdDepartment" />
-          </Key>
-          <Property Name="IdDepartment" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="NameDepartment" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="CertificateRegistration" Relationship="TestGibddModel.FK_CertificateRegistration_Department" FromRole="Department" ToRole="CertificateRegistration" />
-          <NavigationProperty Name="DriverLicence" Relationship="TestGibddModel.FK_DriverLicence_Department" FromRole="Department" ToRole="DriverLicence" />
-        </EntityType>
-        <EntityType Name="DriverLicence">
-          <Key>
-            <PropertyRef Name="NumberDrivingLicence" />
-          </Key>
-          <Property Name="NumberDrivingLicence" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="IdPerson" Type="Int32" Nullable="false" />
-          <Property Name="DateReceipt" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="IdDepartment" Type="Int32" Nullable="false" />
-          <Property Name="Residence" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Department" Relationship="TestGibddModel.FK_DriverLicence_Department" FromRole="DriverLicence" ToRole="Department" />
-          <NavigationProperty Name="User" Relationship="TestGibddModel.FK_DriverLicence_User" FromRole="DriverLicence" ToRole="User" />
-          <NavigationProperty Name="DrivingLicenceCategory" Relationship="TestGibddModel.FK_DrivingLicenceCategory_DriverLicence" FromRole="DriverLicence" ToRole="DrivingLicenceCategory" />
-          <NavigationProperty Name="Penalty" Relationship="TestGibddModel.FK_Penalty_DriverLicence" FromRole="DriverLicence" ToRole="Penalty" />
-        </EntityType>
-        <EntityType Name="DrivingLicenceCategory">
-          <Key>
-            <PropertyRef Name="IdDLC" />
-          </Key>
-          <Property Name="IdDLC" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="NumberDrivingLicence" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="IdCategory" Type="Int32" Nullable="false" />
-          <Property Name="DateReseiptCategory" Type="DateTime" Nullable="false" Precision="0" />
-          <NavigationProperty Name="CategoryTV" Relationship="TestGibddModel.FK_DrivingLicenceCategory_CategoryTV" FromRole="DrivingLicenceCategory" ToRole="CategoryTV" />
-          <NavigationProperty Name="DriverLicence" Relationship="TestGibddModel.FK_DrivingLicenceCategory_DriverLicence" FromRole="DrivingLicenceCategory" ToRole="DriverLicence" />
-        </EntityType>
-        <EntityType Name="Employee">
-          <Key>
-            <PropertyRef Name="IdEmployee" />
-          </Key>
-          <Property Name="IdEmployee" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="IdPerson" Type="Int32" Nullable="false" />
-          <Property Name="Login" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="IdPosition" Type="Int32" Nullable="false" />
-          <Property Name="DateStart" Type="DateTime" Precision="0" />
-          <Property Name="PhotoPath" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <NavigationProperty Name="Position" Relationship="TestGibddModel.FK_Employee_Position" FromRole="Employee" ToRole="Position" />
-          <NavigationProperty Name="User" Relationship="TestGibddModel.FK_Employee_User" FromRole="Employee" ToRole="User" />
-        </EntityType>
-        <EntityType Name="Gender">
-          <Key>
-            <PropertyRef Name="GenderCode" />
-          </Key>
-          <Property Name="GenderCode" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="true" />
-          <Property Name="GenderName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="User" Relationship="TestGibddModel.FK_User_Gender" FromRole="Gender" ToRole="User" />
-        </EntityType>
-        <EntityType Name="ModelTV">
-          <Key>
-            <PropertyRef Name="IdModelTV" />
-          </Key>
-          <Property Name="IdModelTV" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="IdBrandTV" Type="Int32" Nullable="false" />
-          <Property Name="NameModel" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="BrandTV" Relationship="TestGibddModel.FK_ModelTV_BrandTV" FromRole="ModelTV" ToRole="BrandTV" />
-          <NavigationProperty Name="TransportVehicle" Relationship="TestGibddModel.FK_TransportVehicle_ModelTV" FromRole="ModelTV" ToRole="TransportVehicle" />
-          <Property Name="PhotoTVPath" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="Penalty">
-          <Key>
-            <PropertyRef Name="IdPenalty" />
-          </Key>
-          <Property Name="IdPenalty" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="NumberDrivingLicence" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="Location" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="DateOfReceipt" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="IsPaid" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="DriverLicence" Relationship="TestGibddModel.FK_Penalty_DriverLicence" FromRole="Penalty" ToRole="DriverLicence" />
-          <NavigationProperty Name="PenaltyArticle" Relationship="TestGibddModel.FK_PenaltyArticle_Penalty" FromRole="Penalty" ToRole="PenaltyArticle" />
-        </EntityType>
-        <EntityType Name="PenaltyArticle">
-          <Key>
-            <PropertyRef Name="IdPenaltyArticle" />
-          </Key>
-          <Property Name="IdPenaltyArticle" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="IdPenalty" Type="Int32" Nullable="false" />
-          <Property Name="IdArticle" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Article" Relationship="TestGibddModel.FK_PenaltyArticle_Article" FromRole="PenaltyArticle" ToRole="Article" />
-          <NavigationProperty Name="Penalty" Relationship="TestGibddModel.FK_PenaltyArticle_Penalty" FromRole="PenaltyArticle" ToRole="Penalty" />
-        </EntityType>
-        <EntityType Name="Position">
-          <Key>
-            <PropertyRef Name="IdPosition" />
-          </Key>
-          <Property Name="IdPosition" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="NamePosition" Type="String" Nullable="false" MaxLength="80" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Employee" Relationship="TestGibddModel.FK_Employee_Position" FromRole="Position" ToRole="Employee" />
-        </EntityType>
-        <EntityType Name="sysdiagrams">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="principal_id" Type="Int32" Nullable="false" />
-          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="version" Type="Int32" />
-          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
-        </EntityType>
-        <EntityType Name="TransportVehicle">
-          <Key>
-            <PropertyRef Name="VIN" />
-          </Key>
-          <Property Name="VIN" Type="String" Nullable="false" MaxLength="17" FixedLength="false" Unicode="true" />
-          <Property Name="IdModel" Type="Int32" Nullable="false" />
-          <Property Name="IdColor" Type="Int32" Nullable="false" />
-          <Property Name="IdCategoryTV" Type="Int32" Nullable="false" />
-          <Property Name="YearOfManufacture" Type="DateTime" Precision="0" />
-          <NavigationProperty Name="CategoryTV" Relationship="TestGibddModel.FK_TransportVehicle_CategoryTV" FromRole="TransportVehicle" ToRole="CategoryTV" />
-          <NavigationProperty Name="CertificateRegistration" Relationship="TestGibddModel.FK_CertificateRegistration_TransportVehicle" FromRole="TransportVehicle" ToRole="CertificateRegistration" />
-          <NavigationProperty Name="Color" Relationship="TestGibddModel.FK_TransportVehicle_Color" FromRole="TransportVehicle" ToRole="Color" />
-          <NavigationProperty Name="ModelTV" Relationship="TestGibddModel.FK_TransportVehicle_ModelTV" FromRole="TransportVehicle" ToRole="ModelTV" />
-        </EntityType>
-        <EntityType Name="User">
-          <Key>
-            <PropertyRef Name="IdPerson" />
-          </Key>
-          <Property Name="IdPerson" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="LastName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Patronymic" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="GenderCode" Type="String" Nullable="false" MaxLength="1" FixedLength="true" Unicode="true" />
-          <Property Name="DateOfBirth" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="PhotoPath" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="CertificateRegistration" Relationship="TestGibddModel.FK_CertificateRegistration_User" FromRole="User" ToRole="CertificateRegistration" />
-          <NavigationProperty Name="DriverLicence" Relationship="TestGibddModel.FK_DriverLicence_User" FromRole="User" ToRole="DriverLicence" />
-          <NavigationProperty Name="Employee" Relationship="TestGibddModel.FK_Employee_User" FromRole="User" ToRole="Employee" />
-          <NavigationProperty Name="Gender" Relationship="TestGibddModel.FK_User_Gender" FromRole="User" ToRole="Gender" />
-        </EntityType>
-        <Association Name="FK_PenaltyArticle_Article">
-          <End Type="TestGibddModel.Article" Role="Article" Multiplicity="1" />
-          <End Type="TestGibddModel.PenaltyArticle" Role="PenaltyArticle" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Article">
-              <PropertyRef Name="IdArticle" />
-            </Principal>
-            <Dependent Role="PenaltyArticle">
-              <PropertyRef Name="IdArticle" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ModelTV_BrandTV">
-          <End Type="TestGibddModel.BrandTV" Role="BrandTV" Multiplicity="1" />
-          <End Type="TestGibddModel.ModelTV" Role="ModelTV" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="BrandTV">
-              <PropertyRef Name="IdBrand" />
-            </Principal>
-            <Dependent Role="ModelTV">
-              <PropertyRef Name="IdBrandTV" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_DrivingLicenceCategory_CategoryTV">
-          <End Type="TestGibddModel.CategoryTV" Role="CategoryTV" Multiplicity="1" />
-          <End Type="TestGibddModel.DrivingLicenceCategory" Role="DrivingLicenceCategory" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CategoryTV">
-              <PropertyRef Name="IdCategory" />
-            </Principal>
-            <Dependent Role="DrivingLicenceCategory">
-              <PropertyRef Name="IdCategory" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TransportVehicle_CategoryTV">
-          <End Type="TestGibddModel.CategoryTV" Role="CategoryTV" Multiplicity="1" />
-          <End Type="TestGibddModel.TransportVehicle" Role="TransportVehicle" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CategoryTV">
-              <PropertyRef Name="IdCategory" />
-            </Principal>
-            <Dependent Role="TransportVehicle">
-              <PropertyRef Name="IdCategoryTV" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_CertificateRegistration_Department">
-          <End Type="TestGibddModel.Department" Role="Department" Multiplicity="0..1" />
-          <End Type="TestGibddModel.CertificateRegistration" Role="CertificateRegistration" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Department">
-              <PropertyRef Name="IdDepartment" />
-            </Principal>
-            <Dependent Role="CertificateRegistration">
-              <PropertyRef Name="IdDepartment" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_CertificateRegistration_TransportVehicle">
-          <End Type="TestGibddModel.TransportVehicle" Role="TransportVehicle" Multiplicity="0..1" />
-          <End Type="TestGibddModel.CertificateRegistration" Role="CertificateRegistration" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TransportVehicle">
-              <PropertyRef Name="VIN" />
-            </Principal>
-            <Dependent Role="CertificateRegistration">
-              <PropertyRef Name="VIN" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_CertificateRegistration_User">
-          <End Type="TestGibddModel.User" Role="User" Multiplicity="1" />
-          <End Type="TestGibddModel.CertificateRegistration" Role="CertificateRegistration" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="IdPerson" />
-            </Principal>
-            <Dependent Role="CertificateRegistration">
-              <PropertyRef Name="IdPerson" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TransportVehicle_Color">
-          <End Type="TestGibddModel.Color" Role="Color" Multiplicity="1" />
-          <End Type="TestGibddModel.TransportVehicle" Role="TransportVehicle" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Color">
-              <PropertyRef Name="IdColor" />
-            </Principal>
-            <Dependent Role="TransportVehicle">
-              <PropertyRef Name="IdColor" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_DriverLicence_Department">
-          <End Type="TestGibddModel.Department" Role="Department" Multiplicity="1" />
-          <End Type="TestGibddModel.DriverLicence" Role="DriverLicence" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Department">
-              <PropertyRef Name="IdDepartment" />
-            </Principal>
-            <Dependent Role="DriverLicence">
-              <PropertyRef Name="IdDepartment" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_DriverLicence_User">
-          <End Type="TestGibddModel.User" Role="User" Multiplicity="1" />
-          <End Type="TestGibddModel.DriverLicence" Role="DriverLicence" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="IdPerson" />
-            </Principal>
-            <Dependent Role="DriverLicence">
-              <PropertyRef Name="IdPerson" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_DrivingLicenceCategory_DriverLicence">
-          <End Type="TestGibddModel.DriverLicence" Role="DriverLicence" Multiplicity="1" />
-          <End Type="TestGibddModel.DrivingLicenceCategory" Role="DrivingLicenceCategory" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="DriverLicence">
-              <PropertyRef Name="NumberDrivingLicence" />
-            </Principal>
-            <Dependent Role="DrivingLicenceCategory">
-              <PropertyRef Name="NumberDrivingLicence" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Penalty_DriverLicence">
-          <End Type="TestGibddModel.DriverLicence" Role="DriverLicence" Multiplicity="1" />
-          <End Type="TestGibddModel.Penalty" Role="Penalty" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="DriverLicence">
-              <PropertyRef Name="NumberDrivingLicence" />
-            </Principal>
-            <Dependent Role="Penalty">
-              <PropertyRef Name="NumberDrivingLicence" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Employee_Position">
-          <End Type="TestGibddModel.Position" Role="Position" Multiplicity="1" />
-          <End Type="TestGibddModel.Employee" Role="Employee" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Position">
-              <PropertyRef Name="IdPosition" />
-            </Principal>
-            <Dependent Role="Employee">
-              <PropertyRef Name="IdPosition" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Employee_User">
-          <End Type="TestGibddModel.User" Role="User" Multiplicity="1" />
-          <End Type="TestGibddModel.Employee" Role="Employee" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="IdPerson" />
-            </Principal>
-            <Dependent Role="Employee">
-              <PropertyRef Name="IdPerson" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_User_Gender">
-          <End Type="TestGibddModel.Gender" Role="Gender" Multiplicity="1" />
-          <End Type="TestGibddModel.User" Role="User" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Gender">
-              <PropertyRef Name="GenderCode" />
-            </Principal>
-            <Dependent Role="User">
-              <PropertyRef Name="GenderCode" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TransportVehicle_ModelTV">
-          <End Type="TestGibddModel.ModelTV" Role="ModelTV" Multiplicity="1" />
-          <End Type="TestGibddModel.TransportVehicle" Role="TransportVehicle" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ModelTV">
-              <PropertyRef Name="IdModelTV" />
-            </Principal>
-            <Dependent Role="TransportVehicle">
-              <PropertyRef Name="IdModel" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PenaltyArticle_Penalty">
-          <End Type="TestGibddModel.Penalty" Role="Penalty" Multiplicity="1" />
-          <End Type="TestGibddModel.PenaltyArticle" Role="PenaltyArticle" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Penalty">
-              <PropertyRef Name="IdPenalty" />
-            </Principal>
-            <Dependent Role="PenaltyArticle">
-              <PropertyRef Name="IdPenalty" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="UserPenalty">
-          <Key>
-            <PropertyRef Name="FIO" />
-          </Key>
-          <Property Name="FIO" Type="String" Nullable="false" MaxLength="152" FixedLength="false" Unicode="true" />
-          <Property Name="CountPenalty" Type="Int32" />
-          <Property Name="SumPenalty" Type="Decimal" Precision="38" Scale="2" />
-        </EntityType>
         <EntityType Name="UserTransportVehicle">
           <Key>
             <PropertyRef Name="FIO" />
@@ -1081,20 +1095,203 @@
           <Property Name="FIO" Type="String" Nullable="false" MaxLength="152" FixedLength="false" Unicode="true" />
           <Property Name="Number" Type="Int64" Nullable="false" />
           <Property Name="DateReceipt" Type="DateTime" Precision="0" />
-          <Property Name="NumberTransportVehicle" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Name="VIN" Type="String" MaxLength="17" FixedLength="false" Unicode="true" />
           <Property Name="Brand" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Model" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Color" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="IdBrand" Type="Int32" Nullable="false" />
           <Property Name="PhotoTVPath" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="NumberTransportVehicle" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
         </EntityType>
-        </Schema>
+      </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="Хранилище TestGibddModelContainer" CdmEntityContainer="Entities">
+          <EntitySetMapping Name="Article">
+            <EntityTypeMapping TypeName="TestGibddModel.Article">
+              <MappingFragment StoreEntitySet="Article">
+                <ScalarProperty Name="IdArticle" ColumnName="IdArticle" />
+                <ScalarProperty Name="ArticleNumber" ColumnName="ArticleNumber" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Cost" ColumnName="Cost" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BrandTV">
+            <EntityTypeMapping TypeName="TestGibddModel.BrandTV">
+              <MappingFragment StoreEntitySet="BrandTV">
+                <ScalarProperty Name="IdBrand" ColumnName="IdBrand" />
+                <ScalarProperty Name="NameBrand" ColumnName="NameBrand" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CategoryTV">
+            <EntityTypeMapping TypeName="TestGibddModel.CategoryTV">
+              <MappingFragment StoreEntitySet="CategoryTV">
+                <ScalarProperty Name="IdCategory" ColumnName="IdCategory" />
+                <ScalarProperty Name="IndexCategory" ColumnName="IndexCategory" />
+                <ScalarProperty Name="NameCategory" ColumnName="NameCategory" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CertificateRegistration">
+            <EntityTypeMapping TypeName="TestGibddModel.CertificateRegistration">
+              <MappingFragment StoreEntitySet="CertificateRegistration">
+                <ScalarProperty Name="Number" ColumnName="Number" />
+                <ScalarProperty Name="IdPerson" ColumnName="IdPerson" />
+                <ScalarProperty Name="VIN" ColumnName="VIN" />
+                <ScalarProperty Name="NumberTransportVehicle" ColumnName="NumberTransportVehicle" />
+                <ScalarProperty Name="IdDepartment" ColumnName="IdDepartment" />
+                <ScalarProperty Name="DateReceipt" ColumnName="DateReceipt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Color">
+            <EntityTypeMapping TypeName="TestGibddModel.Color">
+              <MappingFragment StoreEntitySet="Color">
+                <ScalarProperty Name="IdColor" ColumnName="IdColor" />
+                <ScalarProperty Name="NameColor" ColumnName="NameColor" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Department">
+            <EntityTypeMapping TypeName="TestGibddModel.Department">
+              <MappingFragment StoreEntitySet="Department">
+                <ScalarProperty Name="IdDepartment" ColumnName="IdDepartment" />
+                <ScalarProperty Name="NameDepartment" ColumnName="NameDepartment" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DriverLicence">
+            <EntityTypeMapping TypeName="TestGibddModel.DriverLicence">
+              <MappingFragment StoreEntitySet="DriverLicence">
+                <ScalarProperty Name="NumberDrivingLicence" ColumnName="NumberDrivingLicence" />
+                <ScalarProperty Name="IdPerson" ColumnName="IdPerson" />
+                <ScalarProperty Name="DateReceipt" ColumnName="DateReceipt" />
+                <ScalarProperty Name="IdDepartment" ColumnName="IdDepartment" />
+                <ScalarProperty Name="Residence" ColumnName="Residence" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DrivingLicenceCategory">
+            <EntityTypeMapping TypeName="TestGibddModel.DrivingLicenceCategory">
+              <MappingFragment StoreEntitySet="DrivingLicenceCategory">
+                <ScalarProperty Name="IdDLC" ColumnName="IdDLC" />
+                <ScalarProperty Name="NumberDrivingLicence" ColumnName="NumberDrivingLicence" />
+                <ScalarProperty Name="IdCategory" ColumnName="IdCategory" />
+                <ScalarProperty Name="DateReseiptCategory" ColumnName="DateReseiptCategory" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Employee">
+            <EntityTypeMapping TypeName="TestGibddModel.Employee">
+              <MappingFragment StoreEntitySet="Employee">
+                <ScalarProperty Name="IdEmployee" ColumnName="IdEmployee" />
+                <ScalarProperty Name="IdPerson" ColumnName="IdPerson" />
+                <ScalarProperty Name="Login" ColumnName="Login" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="IdPosition" ColumnName="IdPosition" />
+                <ScalarProperty Name="DateStart" ColumnName="DateStart" />
+                <ScalarProperty Name="PhotoPath" ColumnName="PhotoPath" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Gender">
+            <EntityTypeMapping TypeName="TestGibddModel.Gender">
+              <MappingFragment StoreEntitySet="Gender">
+                <ScalarProperty Name="GenderCode" ColumnName="GenderCode" />
+                <ScalarProperty Name="GenderName" ColumnName="GenderName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ModelTV">
+            <EntityTypeMapping TypeName="TestGibddModel.ModelTV">
+              <MappingFragment StoreEntitySet="ModelTV">
+                <ScalarProperty Name="IdModelTV" ColumnName="IdModelTV" />
+                <ScalarProperty Name="IdBrandTV" ColumnName="IdBrandTV" />
+                <ScalarProperty Name="NameModel" ColumnName="NameModel" />
+                <ScalarProperty Name="PhotoTVPath" ColumnName="PhotoTVPath" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Penalty">
+            <EntityTypeMapping TypeName="TestGibddModel.Penalty">
+              <MappingFragment StoreEntitySet="Penalty">
+                <ScalarProperty Name="IdPenalty" ColumnName="IdPenalty" />
+                <ScalarProperty Name="NumberDrivingLicence" ColumnName="NumberDrivingLicence" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+                <ScalarProperty Name="DateOfReceipt" ColumnName="DateOfReceipt" />
+                <ScalarProperty Name="IsPaid" ColumnName="IsPaid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PenaltyArticle">
+            <EntityTypeMapping TypeName="TestGibddModel.PenaltyArticle">
+              <MappingFragment StoreEntitySet="PenaltyArticle">
+                <ScalarProperty Name="IdPenaltyArticle" ColumnName="IdPenaltyArticle" />
+                <ScalarProperty Name="IdPenalty" ColumnName="IdPenalty" />
+                <ScalarProperty Name="IdArticle" ColumnName="IdArticle" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Position">
+            <EntityTypeMapping TypeName="TestGibddModel.Position">
+              <MappingFragment StoreEntitySet="Position">
+                <ScalarProperty Name="IdPosition" ColumnName="IdPosition" />
+                <ScalarProperty Name="NamePosition" ColumnName="NamePosition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="TestGibddModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TransportVehicle">
+            <EntityTypeMapping TypeName="TestGibddModel.TransportVehicle">
+              <MappingFragment StoreEntitySet="TransportVehicle">
+                <ScalarProperty Name="VIN" ColumnName="VIN" />
+                <ScalarProperty Name="IdModel" ColumnName="IdModel" />
+                <ScalarProperty Name="IdColor" ColumnName="IdColor" />
+                <ScalarProperty Name="IdCategoryTV" ColumnName="IdCategoryTV" />
+                <ScalarProperty Name="YearOfManufacture" ColumnName="YearOfManufacture" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="User">
+            <EntityTypeMapping TypeName="TestGibddModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="IdPerson" ColumnName="IdPerson" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="Patronymic" ColumnName="Patronymic" />
+                <ScalarProperty Name="GenderCode" ColumnName="GenderCode" />
+                <ScalarProperty Name="DateOfBirth" ColumnName="DateOfBirth" />
+                <ScalarProperty Name="PhotoPath" ColumnName="PhotoPath" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserPenalty">
+            <EntityTypeMapping TypeName="TestGibddModel.UserPenalty">
+              <MappingFragment StoreEntitySet="UserPenalty">
+                <ScalarProperty Name="CountPenalty" ColumnName="CountPenalty" />
+                <ScalarProperty Name="PhotoPath" ColumnName="PhotoPath" />
+                <ScalarProperty Name="FIO" ColumnName="FIO" />
+                <ScalarProperty Name="SumPenalty" ColumnName="SumPenalty" />
+                <ScalarProperty Name="Paid" ColumnName="Paid" />
+                <ScalarProperty Name="Unpaid" ColumnName="Unpaid" />
+                <ScalarProperty Name="ColorUser" ColumnName="ColorUser" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="Хранилище TestGibddModel.sp_alterdiagram" />
           <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="Хранилище TestGibddModel.sp_creatediagram" />
           <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="Хранилище TestGibddModel.sp_dropdiagram" />
@@ -1119,195 +1316,16 @@
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="Хранилище TestGibddModel.sp_renamediagram" />
           <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="Хранилище TestGibddModel.sp_upgraddiagrams" />
-          <EntitySetMapping Name="Article">
-            <EntityTypeMapping TypeName="TestGibddModel.Article">
-              <MappingFragment StoreEntitySet="Article">
-                <ScalarProperty Name="Cost" ColumnName="Cost" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="ArticleNumber" ColumnName="ArticleNumber" />
-                <ScalarProperty Name="IdArticle" ColumnName="IdArticle" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="BrandTV">
-            <EntityTypeMapping TypeName="TestGibddModel.BrandTV">
-              <MappingFragment StoreEntitySet="BrandTV">
-                <ScalarProperty Name="NameBrand" ColumnName="NameBrand" />
-                <ScalarProperty Name="IdBrand" ColumnName="IdBrand" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="CategoryTV">
-            <EntityTypeMapping TypeName="TestGibddModel.CategoryTV">
-              <MappingFragment StoreEntitySet="CategoryTV">
-                <ScalarProperty Name="NameCategory" ColumnName="NameCategory" />
-                <ScalarProperty Name="IndexCategory" ColumnName="IndexCategory" />
-                <ScalarProperty Name="IdCategory" ColumnName="IdCategory" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="CertificateRegistration">
-            <EntityTypeMapping TypeName="TestGibddModel.CertificateRegistration">
-              <MappingFragment StoreEntitySet="CertificateRegistration">
-                <ScalarProperty Name="DateReceipt" ColumnName="DateReceipt" />
-                <ScalarProperty Name="IdDepartment" ColumnName="IdDepartment" />
-                <ScalarProperty Name="NumberTransportVehicle" ColumnName="NumberTransportVehicle" />
-                <ScalarProperty Name="VIN" ColumnName="VIN" />
-                <ScalarProperty Name="IdPerson" ColumnName="IdPerson" />
-                <ScalarProperty Name="Number" ColumnName="Number" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Color">
-            <EntityTypeMapping TypeName="TestGibddModel.Color">
-              <MappingFragment StoreEntitySet="Color">
-                <ScalarProperty Name="NameColor" ColumnName="NameColor" />
-                <ScalarProperty Name="IdColor" ColumnName="IdColor" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Department">
-            <EntityTypeMapping TypeName="TestGibddModel.Department">
-              <MappingFragment StoreEntitySet="Department">
-                <ScalarProperty Name="NameDepartment" ColumnName="NameDepartment" />
-                <ScalarProperty Name="IdDepartment" ColumnName="IdDepartment" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="DriverLicence">
-            <EntityTypeMapping TypeName="TestGibddModel.DriverLicence">
-              <MappingFragment StoreEntitySet="DriverLicence">
-                <ScalarProperty Name="Residence" ColumnName="Residence" />
-                <ScalarProperty Name="IdDepartment" ColumnName="IdDepartment" />
-                <ScalarProperty Name="DateReceipt" ColumnName="DateReceipt" />
-                <ScalarProperty Name="IdPerson" ColumnName="IdPerson" />
-                <ScalarProperty Name="NumberDrivingLicence" ColumnName="NumberDrivingLicence" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="DrivingLicenceCategory">
-            <EntityTypeMapping TypeName="TestGibddModel.DrivingLicenceCategory">
-              <MappingFragment StoreEntitySet="DrivingLicenceCategory">
-                <ScalarProperty Name="DateReseiptCategory" ColumnName="DateReseiptCategory" />
-                <ScalarProperty Name="IdCategory" ColumnName="IdCategory" />
-                <ScalarProperty Name="NumberDrivingLicence" ColumnName="NumberDrivingLicence" />
-                <ScalarProperty Name="IdDLC" ColumnName="IdDLC" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Employee">
-            <EntityTypeMapping TypeName="TestGibddModel.Employee">
-              <MappingFragment StoreEntitySet="Employee">
-                <ScalarProperty Name="PhotoPath" ColumnName="PhotoPath" />
-                <ScalarProperty Name="DateStart" ColumnName="DateStart" />
-                <ScalarProperty Name="IdPosition" ColumnName="IdPosition" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="Login" ColumnName="Login" />
-                <ScalarProperty Name="IdPerson" ColumnName="IdPerson" />
-                <ScalarProperty Name="IdEmployee" ColumnName="IdEmployee" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Gender">
-            <EntityTypeMapping TypeName="TestGibddModel.Gender">
-              <MappingFragment StoreEntitySet="Gender">
-                <ScalarProperty Name="GenderName" ColumnName="GenderName" />
-                <ScalarProperty Name="GenderCode" ColumnName="GenderCode" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="ModelTV">
-            <EntityTypeMapping TypeName="TestGibddModel.ModelTV">
-              <MappingFragment StoreEntitySet="ModelTV">
-                <ScalarProperty Name="PhotoTVPath" ColumnName="PhotoTVPath" />
-                <ScalarProperty Name="NameModel" ColumnName="NameModel" />
-                <ScalarProperty Name="IdBrandTV" ColumnName="IdBrandTV" />
-                <ScalarProperty Name="IdModelTV" ColumnName="IdModelTV" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Penalty">
-            <EntityTypeMapping TypeName="TestGibddModel.Penalty">
-              <MappingFragment StoreEntitySet="Penalty">
-                <ScalarProperty Name="IsPaid" ColumnName="IsPaid" />
-                <ScalarProperty Name="DateOfReceipt" ColumnName="DateOfReceipt" />
-                <ScalarProperty Name="Location" ColumnName="Location" />
-                <ScalarProperty Name="NumberDrivingLicence" ColumnName="NumberDrivingLicence" />
-                <ScalarProperty Name="IdPenalty" ColumnName="IdPenalty" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="PenaltyArticle">
-            <EntityTypeMapping TypeName="TestGibddModel.PenaltyArticle">
-              <MappingFragment StoreEntitySet="PenaltyArticle">
-                <ScalarProperty Name="IdArticle" ColumnName="IdArticle" />
-                <ScalarProperty Name="IdPenalty" ColumnName="IdPenalty" />
-                <ScalarProperty Name="IdPenaltyArticle" ColumnName="IdPenaltyArticle" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Position">
-            <EntityTypeMapping TypeName="TestGibddModel.Position">
-              <MappingFragment StoreEntitySet="Position">
-                <ScalarProperty Name="NamePosition" ColumnName="NamePosition" />
-                <ScalarProperty Name="IdPosition" ColumnName="IdPosition" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="sysdiagrams">
-            <EntityTypeMapping TypeName="TestGibddModel.sysdiagrams">
-              <MappingFragment StoreEntitySet="sysdiagrams">
-                <ScalarProperty Name="definition" ColumnName="definition" />
-                <ScalarProperty Name="version" ColumnName="version" />
-                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
-                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
-                <ScalarProperty Name="name" ColumnName="name" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="TransportVehicle">
-            <EntityTypeMapping TypeName="TestGibddModel.TransportVehicle">
-              <MappingFragment StoreEntitySet="TransportVehicle">
-                <ScalarProperty Name="YearOfManufacture" ColumnName="YearOfManufacture" />
-                <ScalarProperty Name="IdCategoryTV" ColumnName="IdCategoryTV" />
-                <ScalarProperty Name="IdColor" ColumnName="IdColor" />
-                <ScalarProperty Name="IdModel" ColumnName="IdModel" />
-                <ScalarProperty Name="VIN" ColumnName="VIN" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="User">
-            <EntityTypeMapping TypeName="TestGibddModel.User">
-              <MappingFragment StoreEntitySet="User">
-                <ScalarProperty Name="PhotoPath" ColumnName="PhotoPath" />
-                <ScalarProperty Name="DateOfBirth" ColumnName="DateOfBirth" />
-                <ScalarProperty Name="GenderCode" ColumnName="GenderCode" />
-                <ScalarProperty Name="Patronymic" ColumnName="Patronymic" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="LastName" ColumnName="LastName" />
-                <ScalarProperty Name="IdPerson" ColumnName="IdPerson" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="UserPenalty">
-            <EntityTypeMapping TypeName="TestGibddModel.UserPenalty">
-              <MappingFragment StoreEntitySet="UserPenalty">
-                <ScalarProperty Name="SumPenalty" ColumnName="SumPenalty" />
-                <ScalarProperty Name="CountPenalty" ColumnName="CountPenalty" />
-                <ScalarProperty Name="FIO" ColumnName="FIO" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="UserTransportVehicle">
             <EntityTypeMapping TypeName="TestGibddModel.UserTransportVehicle">
               <MappingFragment StoreEntitySet="UserTransportVehicle">
+                <ScalarProperty Name="NumberTransportVehicle" ColumnName="NumberTransportVehicle" />
                 <ScalarProperty Name="PhotoTVPath" ColumnName="PhotoTVPath" />
                 <ScalarProperty Name="IdBrand" ColumnName="IdBrand" />
                 <ScalarProperty Name="Color" ColumnName="Color" />
                 <ScalarProperty Name="Model" ColumnName="Model" />
                 <ScalarProperty Name="Brand" ColumnName="Brand" />
                 <ScalarProperty Name="VIN" ColumnName="VIN" />
-                <ScalarProperty Name="NumberTransportVehicle" ColumnName="NumberTransportVehicle" />
                 <ScalarProperty Name="DateReceipt" ColumnName="DateReceipt" />
                 <ScalarProperty Name="Number" ColumnName="Number" />
                 <ScalarProperty Name="FIO" ColumnName="FIO" />
@@ -1315,7 +1333,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          </EntityContainerMapping>
+        </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
   </edmx:Runtime>
