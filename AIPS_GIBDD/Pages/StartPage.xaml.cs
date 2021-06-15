@@ -22,42 +22,31 @@ namespace AIPS_GIBDD.Pages
     /// </summary>
     public partial class StartPage : Page
     {
-        private DispatcherTimer timer = null;
-        private int x;
-        private string Hour;
-        private string Minute;
-        private string Second;
-
-
-        private void timerStart()
-        {
-            timer = new DispatcherTimer();
-            timer.Tick += new EventHandler(timerTick);
-            timer.Interval = new TimeSpan(0, 0, 0, 0, 500);
-            timer.Start();
-        }
-
-        private void timerTick(object sender, EventArgs e)
-        {
-            x++;
-            Time();
-        }
-
-        private void Time()
-        {
-            LbTimer.Content = DateTime.Now.ToString();
-        }
-
         public StartPage()
         {
             InitializeComponent();
-            timerStart();
-            Time();
         }
 
         private void BtnRefundUser_Click(object sender, RoutedEventArgs e)
         {
             frame.Navigate(new PenaltyPage());
+
+        }
+
+        private void BtnAddTV_Click(object sender, RoutedEventArgs e)
+        {
+            frame.Navigate(new RegistrationTVPage());
+
+        }
+
+        private void BtnSearchUser_Click(object sender, RoutedEventArgs e)
+        {
+            frame.Navigate(new SearchPage());
+        }
+
+        private void BtnLicence_Click(object sender, RoutedEventArgs e)
+        {
+            frame.Navigate(new Licence());
         }
     }
 }

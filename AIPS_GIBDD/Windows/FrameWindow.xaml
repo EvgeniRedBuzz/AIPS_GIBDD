@@ -166,7 +166,7 @@
                     VerticalAlignment="Center"
                     Margin="200,0,0,0"
                     BorderThickness="0"
-                    Style="{StaticResource MouseEnterBtn}">
+                    Style="{StaticResource MouseEnterBtn}" Click="BtnRefund_Click">
                 <Button.Background>
                     <ImageBrush ImageSource="/Resources/Refund.png"/>
                 </Button.Background>
@@ -177,35 +177,41 @@
                 </Button.ToolTip>
             </Button>
 
-            <Button x:Name="BtnEmployeeList"
+            <Button x:Name="BtnAddTV"
                     Grid.Row="3"
                     Width="40"
                     Height="40" 
                     Margin="100,0,0,0"
                     HorizontalAlignment="Left"
                     BorderThickness="0"
-                    Style="{StaticResource MouseEnterBtn}">
+                    Style="{StaticResource MouseEnterBtn}"
+                    Click="BtnAddTV_Click">
                 <Button.Background>
-                    <ImageBrush ImageSource="/Resources/Employee.png"/>
+                    <ImageBrush ImageSource="/Resources/RegistrationTV.png"/>
                 </Button.Background>
                 <Button.ToolTip>
                     <ToolTip Style="{StaticResource Tt3}">
-                        <TextBlock Text="Сотрудники"/>
+                        <TextBlock Text="Регистрация ТС"/>
                     </ToolTip>
                 </Button.ToolTip>
             </Button>
 
-            <Button x:Name="BtnCar"
+            <Button x:Name="BtnLicence"
                     Grid.Row="3"
                     Width="40"
                     Height="40" 
                     Margin="200,0,0,0"
                     HorizontalAlignment="Left"
                     BorderThickness="0"
-                    Style="{StaticResource MouseEnterBtn}">
+                    Style="{StaticResource MouseEnterBtn}" Click="BtnLicence_Click">
                 <Button.Background>
                     <ImageBrush ImageSource="/Resources/Licence.png"/>
                 </Button.Background>
+                <Button.ToolTip>
+                    <ToolTip Style="{StaticResource Tt3}">
+                        <TextBlock Text="Водительские удостоверения"/>
+                    </ToolTip>
+                </Button.ToolTip>
             </Button>
             <Button x:Name="BtnAccount"
                 BorderThickness="0"

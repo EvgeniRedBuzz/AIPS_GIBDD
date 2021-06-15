@@ -14,5 +14,9 @@ namespace AIPS_GIBDD.ClassHelper
         public static string EmployeePhotoPath;
 
         public static string EmployeeeFio;
+
+        public static int EmployeeID;
+
+        public static string NumberDL = "2272807718";
     }
 }

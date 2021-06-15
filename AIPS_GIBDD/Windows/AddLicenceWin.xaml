@@ -1,0 +1,146 @@
+﻿<Window x:Class="AIPS_GIBDD.Windows.AddLicenceWin"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AIPS_GIBDD.Windows"
+        mc:Ignorable="d"
+        Title="Добавление ВУ"
+        Height="350" Width="600"
+        ResizeMode="NoResize"
+        Icon="/Resources/Icon.png">
+    <Grid Background="#FF4992FF">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="200"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Image x:Name="PhotoUser"
+               Grid.Row="0" Grid.Column="0"
+               Source="\Material\PhotoUser\m45.jpg"
+               Width="175" Height="175"/>
+        <Label Content="Фамилия"
+               Foreground="White"
+               FontSize="20"
+               Grid.Row="0"
+               Grid.Column="1"
+               Margin="0,0,0,0"
+               VerticalAlignment="Top"/>
+        <TextBox x:Name="TxtLastName"
+                 Grid.Row="0"
+                 Grid.Column="2"
+                 Width="200" Height="30"
+                 FontSize="20"
+                 HorizontalAlignment="Center"
+                 VerticalAlignment="Top"
+                 Margin="0,3"/>
+        <Label Content="Имя"
+               Foreground="White"
+               FontSize="20"
+               Grid.Row="0"
+               Grid.Column="1"
+               VerticalAlignment="Top"
+               Margin="0,40,0,0"/>
+        <TextBox x:Name="TxtFirstName"
+                 Grid.Row="0"
+                 Grid.Column="2"
+                 Width="200" Height="30"
+                 FontSize="20"
+                 HorizontalAlignment="Center"
+                 VerticalAlignment="Top"
+                 Margin="0,43"/>
+        <Label Content="Отчество"
+               Foreground="White"
+               FontSize="20"
+               Grid.Row="0"
+               Grid.Column="1"
+               VerticalAlignment="Top"
+               Margin="0,80,0,0"/>
+        <TextBox x:Name="TxtPatronumic"
+                 Grid.Row="0"
+                 Grid.Column="2"
+                 Width="200" Height="30"
+                 FontSize="20"
+                 HorizontalAlignment="Center"
+                 VerticalAlignment="Top"
+                 Margin="0,83"/>
+        <Label Content="Пол"
+               Foreground="White"
+               FontSize="20"
+               Grid.Row="0"
+               Grid.Column="1"
+               VerticalAlignment="Top"
+               Margin="0,120,0,0"/>
+        <ComboBox x:Name="CmbGender"
+                  Grid.Row="0"
+                  Grid.Column="2"
+                  Width="200" Height="30"
+                  FontSize="20"
+                  Margin="0,123,0,0"
+                  HorizontalAlignment="Center"
+                  VerticalAlignment="Top"/>
+        <Label Content="Дата рождения"
+               Foreground="White"
+               FontSize="20"
+               Grid.Row="0"
+               Grid.Column="1"
+               Width="150"
+               HorizontalAlignment="Left"
+               VerticalAlignment="Top"
+               Grid.ColumnSpan="2"
+               Margin="0,160,0,0"/>
+        <DatePicker x:Name="DateOfBirth"
+                    Grid.Row="0"
+                    Grid.Column="2"
+                    Width="190" Height="30"
+                    FontSize="20"
+                    Margin="20,163,0,0"
+                    BorderThickness="0"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Top"/>
+        <Label Content="Место выдачи"
+               Foreground="White"
+               FontSize="20"
+               Grid.Row="0"
+               Grid.Column="1"
+               VerticalAlignment="Top"
+               Grid.RowSpan="2"
+               Grid.ColumnSpan="2"
+               Margin="0,200,0,0"/>
+        <ComboBox x:Name="CmbDepart"
+                  Grid.Row="0"
+                  Grid.Column="2"
+                  Width="200" Height="30"
+                  FontSize="20"
+                  Margin="0,203,0,0"
+                  Grid.RowSpan="2"
+                  HorizontalAlignment="Center"
+                  VerticalAlignment="Top"/>
+        <Button x:Name="AddPhoto"
+                Content="Выбрать фото"
+                Grid.Row="1"
+                Grid.Column="0"
+                Foreground="White"
+                FontSize="20"
+                Margin="20"
+                Width="130" Height="30"
+                VerticalAlignment="Top"
+                Background="#FF3C73C6"
+                BorderThickness="0"/>
+        <Button x:Name="BtSave"
+                Content="Сохранить"
+                Grid.Row="1"
+                Grid.Column="1"
+                Foreground="White"
+                FontSize="20"
+                Margin="0,81,264,0"
+                Width="130" Height="30"
+                VerticalAlignment="Top"
+                Background="#FF3C73C6"
+                BorderThickness="0" Grid.ColumnSpan="2"/>
+    </Grid>
+</Window>

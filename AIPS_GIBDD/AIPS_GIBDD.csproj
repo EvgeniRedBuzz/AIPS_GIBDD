@@ -72,7 +72,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="help3.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\AccountPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Licence.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -80,7 +88,23 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Pages\RegistrationTVPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\StartPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\AddCategoryLicence.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\AddLicenceWin.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\AddPenaltyWin.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -96,6 +120,9 @@
     <Compile Include="ClassHelper\Converter.cs" />
     <Compile Include="ClassHelper\PageNavigation.cs" />
     <Compile Include="ClassHelper\UserTransportVehicle.cs" />
+    <Compile Include="EF\AllPenalty.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="EF\Article.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -147,9 +174,6 @@
     <Compile Include="EF\Penalty.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="EF\PenaltyArticle.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
     <Compile Include="EF\Position.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -168,6 +192,9 @@
     <Compile Include="EF\User.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="EF\UserDriverLicence.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="EF\UserPenalty.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -180,14 +207,32 @@
     <Compile Include="help2.xaml.cs">
       <DependentUpon>help2.xaml</DependentUpon>
     </Compile>
+    <Compile Include="help3.xaml.cs">
+      <DependentUpon>help3.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\AccountPage.xaml.cs">
       <DependentUpon>AccountPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Licence.xaml.cs">
+      <DependentUpon>Licence.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\PenaltyPage.xaml.cs">
       <DependentUpon>PenaltyPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\RegistrationTVPage.xaml.cs">
+      <DependentUpon>RegistrationTVPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\StartPage.xaml.cs">
       <DependentUpon>StartPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\AddCategoryLicence.xaml.cs">
+      <DependentUpon>AddCategoryLicence.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\AddLicenceWin.xaml.cs">
+      <DependentUpon>AddLicenceWin.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\AddPenaltyWin.xaml.cs">
+      <DependentUpon>AddPenaltyWin.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\Authorization.xaml.cs">
       <DependentUpon>Authorization.xaml</DependentUpon>
@@ -393,6 +438,9 @@
       <DependentUpon>Model1.edmx</DependentUpon>
       <LastGenOutput>Model1.cs</LastGenOutput>
     </Content>
+    <Resource Include="Resources\RegistrationDL.png" />
+    <Resource Include="Resources\RegistrationTV.png" />
+    <Resource Include="Resources\RegistrationTVpng.png" />
     <Resource Include="Resources\Licence.png" />
   </ItemGroup>
   <ItemGroup>

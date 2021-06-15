@@ -16,26 +16,22 @@
                Style="{StaticResource Lb1}"
                HorizontalAlignment="Center"
                VerticalAlignment="Bottom"/>
-        <Label x:Name="LbTimer"
-               Content=""
-               ContentStringFormat="HH:mm:ss"
-               Style="{StaticResource Lb1}"
-               HorizontalAlignment="Right"
-               VerticalAlignment="Top"
-               Margin="10" Visibility="Hidden"/>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
-                <ColumnDefinition/>
             </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
             <Button x:Name="BtnSearchUser"
                     VerticalAlignment="Center"
                     HorizontalAlignment="Center"
                     Height="250"
                     Width="250"
                     BorderThickness="0"
-                    Style="{StaticResource MouseEnterBtn}">
+                    Style="{StaticResource MouseEnterBtn}" Click="BtnSearchUser_Click">
                 <Button.Background>
                     <ImageBrush ImageSource="/Resources/Search2.png"/>
                 </Button.Background>
@@ -46,16 +42,17 @@
                 </Button.ToolTip>
             </Button>
 
-            <Button x:Name="BtnSearchTV"
+            <Button x:Name="BtnLicence"
                     Grid.Column="1"
+                    Grid.Row="1"
                     VerticalAlignment="Center"
                     HorizontalAlignment="Center"
                     Height="250"
                     Width="250"
                     BorderThickness="0"
-                    Style="{StaticResource MouseEnterBtn}">
+                    Style="{StaticResource MouseEnterBtn}" Click="BtnLicence_Click">
                 <Button.Background>
-                    <ImageBrush ImageSource="/Resources/Licence.png"/>
+                    <ImageBrush ImageSource="/Resources/RegistrationDL.png"/>
                 </Button.Background>
                 <Button.ToolTip>
                     <ToolTip Style="{StaticResource Tt2}">
@@ -78,6 +75,25 @@
                 <Button.ToolTip>
                     <ToolTip Style="{StaticResource Tt1}">
                         <TextBlock Text="Штрафы"/>
+                    </ToolTip>
+                </Button.ToolTip>
+            </Button>
+
+            <Button x:Name="BtnAddTV"
+                    Grid.Column="0"
+                    Grid.Row="1"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
+                    Height="250"
+                    Width="250"
+                    BorderThickness="0"
+                    Style="{StaticResource MouseEnterBtn}" Click="BtnAddTV_Click">
+                <Button.Background>
+                    <ImageBrush ImageSource="/Resources/RegistrationTV.png"/>
+                </Button.Background>
+                <Button.ToolTip>
+                    <ToolTip Style="{StaticResource Tt2}">
+                        <TextBlock Text="Регистрация ТС"/>
                     </ToolTip>
                 </Button.ToolTip>
             </Button>

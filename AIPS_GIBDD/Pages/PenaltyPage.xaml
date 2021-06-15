@@ -13,7 +13,7 @@
     </Page.Resources>
     <Grid Background="#FF4992FF">
         <Grid.RowDefinitions>
-            <RowDefinition Height="80"/>
+            <RowDefinition Height="230"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid>
@@ -32,20 +32,67 @@
                      HorizontalAlignment="Left"
                      VerticalAlignment="Top"
                      Margin="100,13,0,0" TextChanged="TxtFIO_TextChanged"/>
+            <Label Content="Номер статьи"
+                   Style="{StaticResource Lb2}"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Top"
+                   Margin="10,70"/>
+            <TextBox x:Name="TxtArticle"
+                     Style="{StaticResource Tbx2}"
+                     Width="190" Height="40"
+                     HorizontalAlignment="Left"
+                     VerticalAlignment="Top"
+                     Margin="190,73,0,0" TextChanged="TxtFIO_TextChanged"/>
+            <Label Content="Дата"
+                   Style="{StaticResource Lb2}"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Top"
+                   Margin="10,130,0,0"/>
+            <DatePicker x:Name="DatePickReceipt"
+                        Width="150" Height="40"
+                        Margin="-100,70,0,0"
+                        BorderThickness="0"
+                        SelectedDateFormat="Short">
+                <DatePicker.RenderTransform>
+                    <ScaleTransform ScaleX="2.1" ScaleY="2.1"/>
+                </DatePicker.RenderTransform>
+            </DatePicker>
+
             <Label Content="Сортировка"
                    Style="{StaticResource Lb2}"
                    Grid.Column="1"
                    HorizontalAlignment="Left"
                    VerticalAlignment="Top"
-                   Margin="0,10,0,0"/>
+                   Margin="10,10"/>
             <ComboBox x:Name="CmbFilter"
                       Style="{StaticResource Cmb1}"
                       Grid.Column="1"
+                      SelectedIndex="0"
                      Width="350" Height="40"
                      HorizontalAlignment="Left"
                      VerticalAlignment="Top"
-                     Margin="160,13,0,0" SelectionChanged="CmbFilter_SelectionChanged"/>
-            
+                     Margin="160,13,0,0"
+                      SelectionChanged="CmbFilter_SelectionChanged"/>
+            <Button x:Name="AddPenalty"
+                    Content="Добавить"
+                    Foreground="White"
+                    FontSize="26"
+                    Width="150" Height="40"
+                    Background="#FF3C73C6"
+                    BorderThickness="0"
+                    Grid.Column="1" Margin="240,190,0,0" Click="AddPenalty_Click"/>
+            <CheckBox x:Name="CheckColor" Content="Выделить цветом"
+                      Foreground="White"
+                      BorderThickness="0"
+                      Margin="10,60,0,0"
+                      VerticalAlignment="Bottom"
+                      HorizontalAlignment="Left"
+                      Width="150" Height="30" Click="CheckBox_Click">
+                <CheckBox.RenderTransform>
+                    <ScaleTransform ScaleX="2" ScaleY="2"/>
+                </CheckBox.RenderTransform>
+            </CheckBox>
+
         </Grid>
         <ListView Grid.Row="1"
                   Margin="10"
@@ -54,16 +101,15 @@
                   HorizontalAlignment="Left">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <Border Margin="5,5,5,0"
+                    <Border x:Name="borderLv"
+            Margin="5,5,5,0"
                             BorderBrush="Black"
                             BorderThickness="1"
-                            Width="850" Height="150"
-                Background="{Binding ColorUser}">
+                            Width="850" Height="150">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="150"/>
                                 <ColumnDefinition/>
-                                <ColumnDefinition Width="150"/>
                             </Grid.ColumnDefinitions>
                             <Image x:Name="PhotoUser"
                        Margin="10" Source="{Binding PhotoPath}"/>
@@ -76,64 +122,148 @@
                            Margin="10,10,0,0"
                            Style="{StaticResource Tb3}"/>
                             <TextBlock Grid.Column="1"
-                           Text="Колличество штрафов:"
-                           Width="168" Height="25"
+                           Text="Номер водительского удостоверения:"
+                           Width="280" Height="25"
                            HorizontalAlignment="Left"
                            VerticalAlignment="Top"
-                           Margin="10,40,0,0"
+                           Margin="10,45,0,0"
                            Style="{StaticResource Tb3}"/>
                             <TextBlock 
                            Grid.Column="1"
-                           Text="{Binding CountPenalty}"
-                           Width="50" Height="25"
-                           HorizontalAlignment="Left"
-                           VerticalAlignment="Top"
-                           Margin="180,40,0,0"
-                           Style="{StaticResource Tb3}"/>
-                            <TextBlock Grid.Column="1"
-                           Text="Сумма всех штрафов:"
-                           Width="160" Height="25"
-                           HorizontalAlignment="Left"
-                           VerticalAlignment="Top"
-                           Margin="10,70,0,0"
-                           Style="{StaticResource Tb3}"/>
-                            <TextBlock 
-                           Grid.Column="1"
-                           Text="{Binding Converter={StaticResource Converter}, Path = SumPenalty}"
+                           Text="{Binding NumberDrivingLicence}"
                            Width="100" Height="25"
                            HorizontalAlignment="Left"
                            VerticalAlignment="Top"
-                           Margin="170,70,0,0"
+                           Margin="300,45,0,0"
                            Style="{StaticResource Tb3}"/>
                             <TextBlock Grid.Column="1"
-                           Text="Оплачено:"
+                           Text="Дата:"
+                           Width="40" Height="25"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           Margin="548,45,0,0"
+                           Style="{StaticResource Tb3}"/>
+                            <TextBlock 
+                           Grid.Column="1"
+                           Text="{Binding DateOfReceipt, StringFormat={}{0:dd-MM-yyyy}}"
+                           Width="100" Height="25"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           Margin="588,45,0,0"
+                           Style="{StaticResource Tb3}"/>
+
+                            <TextBlock Grid.Column="1"
+                           Text="{Binding PaidPenalty}"
+                           Width="100" Height="25"
+                           HorizontalAlignment="Right"
+                           VerticalAlignment="Top"
+                           Margin="10"
+                           Style="{StaticResource Tb3}"/>
+                            <TextBlock 
+                           Grid.Column="1"
+                           Text="Описание:"
                            Width="80" Height="25"
                            HorizontalAlignment="Left"
-                           VerticalAlignment="Top"
-                           Margin="292,40,0,0"
-                           Style="{StaticResource Tb3}"/>
-                            <TextBlock x:Name="TbBrand"
-                           Grid.Column="1"
-                           Text="{Binding Paid}"
-                           Width="136" Height="25"
-                           HorizontalAlignment="Left"
-                           VerticalAlignment="Top"
-                           Margin="375,40,0,0"
-                           Style="{StaticResource Tb3}"/>
-                            <TextBlock Grid.Column="1"
-                           Text="Не оплачено:"
-                           Width="100" Height="25"
-                           HorizontalAlignment="Left"
-                           VerticalAlignment="Top"
-                           Margin="271,70,0,0"
+                           VerticalAlignment="Bottom"
+                           Margin="10,30"
                            Style="{StaticResource Tb3}"/>
                             <TextBlock 
                            Grid.Column="1"
-                           Text="{Binding Unpaid}"
-                           Width="136" Height="25"
+                           Text="{Binding Description}"
+                           Width="588" Height="60"
+                           TextWrapping="Wrap"
+                           HorizontalAlignment="Right"
+                           VerticalAlignment="Bottom"
+                           Margin="10"
+                           Style="{StaticResource Tb3}"/>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <ListView Grid.Row="1"
+                  Margin="10"
+                  x:Name="LvUserTV2"
+                  Visibility="Collapsed"
+                  Width="900"
+                  HorizontalAlignment="Left">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Border x:Name="borderLv"
+            Margin="5,5,5,0"
+                            BorderBrush="Black"
+                            BorderThickness="1"
+                            Width="850" Height="150"
+                            Background="{Binding ColorUser}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="150"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Image x:Name="PhotoUser"
+                       Margin="10" Source="{Binding PhotoPath}"/>
+                            <TextBlock x:Name="TbFIO"
+                           Grid.Column="1"
+                           Text="{Binding FIO}"
+                           Width="330" Height="25"
                            HorizontalAlignment="Left"
                            VerticalAlignment="Top"
-                           Margin="375,70,0,0"
+                           Margin="10,10,0,0"
+                           Style="{StaticResource Tb3}"/>
+                            <TextBlock Grid.Column="1"
+                           Text="Номер водительского удостоверения:"
+                           Width="280" Height="25"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           Margin="10,45,0,0"
+                           Style="{StaticResource Tb3}"/>
+                            <TextBlock 
+                           Grid.Column="1"
+                           Text="{Binding NumberDrivingLicence}"
+                           Width="100" Height="25"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           Margin="300,45,0,0"
+                           Style="{StaticResource Tb3}"/>
+                            <TextBlock Grid.Column="1"
+                           Text="Дата:"
+                           Width="40" Height="25"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           Margin="548,45,0,0"
+                           Style="{StaticResource Tb3}"/>
+                            <TextBlock 
+                           Grid.Column="1"
+                           Text="{Binding DateOfReceipt, StringFormat={}{0:dd-MM-yyyy}}"
+                           Width="100" Height="25"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           Margin="588,45,0,0"
+                           Style="{StaticResource Tb3}"/>
+
+                            <TextBlock Grid.Column="1"
+                           Text="{Binding PaidPenalty}"
+                           Width="100" Height="25"
+                           HorizontalAlignment="Right"
+                           VerticalAlignment="Top"
+                           Margin="10"
+                           Style="{StaticResource Tb3}"/>
+                            <TextBlock 
+                           Grid.Column="1"
+                           Text="Описание:"
+                           Width="80" Height="25"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Bottom"
+                           Margin="10,30"
+                           Style="{StaticResource Tb3}"/>
+                            <TextBlock 
+                           Grid.Column="1"
+                           Text="{Binding Description}"
+                           Width="588" Height="60"
+                           TextWrapping="Wrap"
+                           HorizontalAlignment="Right"
+                           VerticalAlignment="Bottom"
+                           Margin="10"
                            Style="{StaticResource Tb3}"/>
                         </Grid>
                     </Border>

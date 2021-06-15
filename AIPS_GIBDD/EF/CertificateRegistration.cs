@@ -20,6 +20,7 @@ namespace AIPS_GIBDD.EF
         public string NumberTransportVehicle { get; set; }
         public Nullable<int> IdDepartment { get; set; }
         public Nullable<System.DateTime> DateReceipt { get; set; }
+        public string NumberPassportTV { get; set; }
     
         public virtual Department Department { get; set; }
         public virtual TransportVehicle TransportVehicle { get; set; }

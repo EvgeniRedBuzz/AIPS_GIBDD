@@ -17,7 +17,7 @@ namespace AIPS_GIBDD.EF
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Article()
         {
-            this.PenaltyArticle = new HashSet<PenaltyArticle>();
+            this.Penalty = new HashSet<Penalty>();
         }
     
         public int IdArticle { get; set; }
@@ -26,6 +26,6 @@ namespace AIPS_GIBDD.EF
         public decimal Cost { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PenaltyArticle> PenaltyArticle { get; set; }
+        public virtual ICollection<Penalty> Penalty { get; set; }
     }
 }

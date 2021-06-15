@@ -70,5 +70,24 @@ namespace AIPS_GIBDD.Windows
         {
             frame.Navigate(new Pages.AccountPage());
         }
+
+        private void BtnRefund_Click(object sender, RoutedEventArgs e)
+        {
+            frame.Navigate(new Pages.PenaltyPage());
+            BtnMenu.IsChecked = false;
+
+        }
+
+        private void BtnAddTV_Click(object sender, RoutedEventArgs e)
+        {
+            frame.Navigate(new Pages.RegistrationTVPage());
+            BtnMenu.IsChecked = false;
+        }
+
+        private void BtnLicence_Click(object sender, RoutedEventArgs e)
+        {
+            frame.Navigate(new Pages.Licence());
+            BtnMenu.IsChecked = false;
+        }
     }
 }

@@ -16,10 +16,10 @@ namespace AIPS_GIBDD.EF
     {
         public string PhotoPath { get; set; }
         public string FIO { get; set; }
+        public Nullable<int> CountPenalty { get; set; }
         public Nullable<decimal> SumPenalty { get; set; }
         public Nullable<int> Paid { get; set; }
         public Nullable<int> Unpaid { get; set; }
         public string ColorUser { get; set; }
-        public Nullable<int> CountPenalty { get; set; }
     }
 }

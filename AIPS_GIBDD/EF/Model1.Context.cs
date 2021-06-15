@@ -39,13 +39,14 @@ namespace AIPS_GIBDD.EF
         public virtual DbSet<Gender> Gender { get; set; }
         public virtual DbSet<ModelTV> ModelTV { get; set; }
         public virtual DbSet<Penalty> Penalty { get; set; }
-        public virtual DbSet<PenaltyArticle> PenaltyArticle { get; set; }
         public virtual DbSet<Position> Position { get; set; }
         public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<TransportVehicle> TransportVehicle { get; set; }
         public virtual DbSet<User> User { get; set; }
+        public virtual DbSet<AllPenalty> AllPenalty { get; set; }
         public virtual DbSet<UserPenalty> UserPenalty { get; set; }
         public virtual DbSet<UserTransportVehicle> UserTransportVehicle { get; set; }
+        public virtual DbSet<UserDriverLicence> UserDriverLicence { get; set; }
     
         public virtual int sp_alterdiagram(string diagramname, Nullable<int> owner_id, Nullable<int> version, byte[] definition)
         {

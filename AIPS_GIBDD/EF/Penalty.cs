@@ -14,20 +14,15 @@ namespace AIPS_GIBDD.EF
     
     public partial class Penalty
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Penalty()
-        {
-            this.PenaltyArticle = new HashSet<PenaltyArticle>();
-        }
-    
         public int IdPenalty { get; set; }
         public string NumberDrivingLicence { get; set; }
+        public int IdEmployee { get; set; }
         public string Location { get; set; }
         public System.DateTime DateOfReceipt { get; set; }
         public bool IsPaid { get; set; }
+        public Nullable<int> IdArticle { get; set; }
     
+        public virtual Article Article { get; set; }
         public virtual DriverLicence DriverLicence { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PenaltyArticle> PenaltyArticle { get; set; }
     }
 }

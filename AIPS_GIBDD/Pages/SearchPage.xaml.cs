@@ -38,31 +38,12 @@ namespace AIPS_GIBDD.Pages
             CmbColor.ItemsSource = colors;
             CmbColor.SelectedIndex = 0;
             CmbColor.DisplayMemberPath = "NameColor";
-            GetModel();
-            Filter();
-        }
-        
-
-        private void GetModel()
-        {
-            if (CmbBrand.SelectedIndex == 0)
-            {
-                models = context.ModelTV.ToList();
-                models.Insert(0, new ModelTV() { NameModel = "Все" });
-
-            }
-            else
-            {
-                models = context.ModelTV.Where(i => i.IdBrandTV == CmbBrand.SelectedIndex).ToList();
-                models.Insert(0, new ModelTV() { NameModel = "Все" });
-
-            }
+            models = context.ModelTV.ToList();
+            models.Insert(0, new ModelTV() { NameModel = "Все" });
             CmbModel.ItemsSource = models;
+            CmbModel.SelectedIndex = 0;
             CmbModel.DisplayMemberPath = "NameModel";
-            if (CmbModel.SelectedItem == null)
-            {
-                CmbModel.SelectedItem = "Все";
-            }
+            Filter();
         }
 
         private void Filter()
@@ -88,7 +69,6 @@ namespace AIPS_GIBDD.Pages
 
         private void CmbBrand_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            GetModel();
             Filter();
         }
 

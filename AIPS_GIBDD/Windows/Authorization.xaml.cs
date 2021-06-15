@@ -40,6 +40,7 @@ namespace AIPS_GIBDD.Windows
                          i.Password.Equals(TxtPass.Password)).Select(n => n.IdPerson).FirstOrDefault();
 
             EmployeePhotoPath = context.User.Where(i => i.IdPerson == idEmployee).Select(n => n.PhotoPath).FirstOrDefault();
+            EmployeeID = idEmployee;
             EmployeeeFio = context.User.Where(i => i.IdPerson == idEmployee).Select(n => n.LastName).FirstOrDefault() + " " +
                 context.User.Where(i => i.IdPerson == idEmployee).Select(n => n.FirstName).FirstOrDefault() + " " +
                 context.User.Where(i => i.IdPerson == idEmployee).Select(n => n.Patronymic).FirstOrDefault();

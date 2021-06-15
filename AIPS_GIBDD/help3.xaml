@@ -1,0 +1,94 @@
+﻿<Window x:Class="AIPS_GIBDD.help3"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AIPS_GIBDD"
+        mc:Ignorable="d"
+        Title="help3" Height="450" Width="900">
+    <Grid Background="White">
+        <Border x:Name="borderLv"
+            Margin="5,5,5,0"
+                            BorderBrush="Black"
+                            BorderThickness="1"
+                            Width="850" Height="150"
+                Background="{Binding ColorUser}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="150"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Image x:Name="PhotoUser"
+                       Margin="10" Source="{Binding PhotoPathIn}"/>
+                <TextBlock x:Name="TbFIO"
+                           Grid.Column="1"
+                           Text="{Binding FIO}"
+                           Width="330" Height="25"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           Margin="10,10,0,0"
+                           Style="{StaticResource Tb3}"/>
+                <TextBlock Grid.Column="1"
+                           Text="Номер водительского удостоверения:"
+                           Width="280" Height="25"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           Margin="10,45,0,0"
+                           Style="{StaticResource Tb3}"/>
+                <TextBlock 
+                           Grid.Column="1"
+                           Text="{Binding NumberDriverLicence}"
+                           Width="100" Height="25"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           Margin="300,45,0,0"
+                           Style="{StaticResource Tb3}"/>
+                <TextBlock Grid.Column="1"
+                           Text="Дата получения:"
+                           Width="125" Height="25"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           Margin="417,10,0,0"
+                           Style="{StaticResource Tb3}"/>
+                <TextBlock Grid.Column="1"
+                           Text="{Binding DateReceipt}"
+                           Width="125" Height="25"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           Margin="542,10,0,0"
+                           Style="{StaticResource Tb3}"/>
+                <TextBlock Grid.Column="1"
+                           Text="Место выдачи:"
+                           Width="115" Height="25"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           Margin="417,45,0,0"
+                           Style="{StaticResource Tb3}"/>
+                <TextBlock Grid.Column="1"
+                           Text="{Binding NameDepartment}"
+                           Width="156" Height="93"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Top"
+                           TextWrapping="Wrap"
+                           Margin="532,45,0,0"
+                           Style="{StaticResource Tb3}"/>
+                <TextBlock 
+                           Grid.Column="1"
+                           Text="Категории:"
+                           Width="80" Height="25"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Bottom"
+                           Margin="10,30"
+                           Style="{StaticResource Tb3}"/>
+                <TextBlock 
+                           Grid.Column="1"
+                           Text="{Binding Categories}"
+                           Width="250" Height="25"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Bottom"
+                           Margin="100,30"
+                           Style="{StaticResource Tb3}"/>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>
